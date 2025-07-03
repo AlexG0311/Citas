@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>servicios</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body
+    class="flex flex-col items-center justify-start min-h-screen bg-gray-100 font-sans"
+  >
+    <nav class="w-full flex justify-end mb-6 bg-blue-500 p-4">
+      <div class="contenedorNavCliente flex flex-wrap items-center">
+        <ul
+          class="flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400"
+        >
+          <li class="me-2">
+            <a
+              href="#"
+              data-tab="tab1"
+              class="tab-link inline-block px-4 py-3 text-white bg-blue-600 rounded-lg active w-40 h-10"
+              aria-current="page"
+              >Tab 1</a
+            >
+          </li>
+          <li class="me-2">
+            <a
+              href="#"
+              data-tab="tab2"
+              class="tab-link inline-block w-40 h-10 px-4 py-3 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"
+              >Tab 2</a
+            >
+          </li>
+          <li class="me-2">
+            <a
+              href="#"
+              data-tab="tab3"
+              class="tab-link inline-block px-4 w-40 h-10 py-3 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"
+              >Tab 3</a
+            >
+          </li>
+          <li class="me-2">
+            <a
+              href="#"
+              data-tab="tab4"
+              class="tab-link inline-block px-4 w-40 h-10 py-3 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"
+              >Tab 4</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              data-tab="tab5"
+              class="tab-link inline-block px-4 w-40 h-10 py-3 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-white"
+              >Tab 5</a
+            >
+          </li>
+        </ul>
+
+        <img
+          src="{{ url_for('static', filename='user.png') }}"
+          alt="Usuario"
+          class="w-15 h-10 rounded-full cursor-pointer ml-4"
+        />
+      </div>
+    </nav>
+
+    <div id="tab-content" class="w-full max-w-4xl p-6">
+      <div id="tab1" class="tab-content">
+        <h2 class="text-2xl font-bold mb-4">Content for Tab 1</h2>
+        <p>This is the content for Tab 1. You can customize this section with your own content.</p>
+      </div>
+      <div id="tab2" class="tab-content hidden">
+        <h2 class="text-2xl font-bold mb-4">Content for Tab 2</h2>
+        <p>This is the content for Tab 2. Add your own details here.</p>
+      </div>
+      <div id="tab3" class="tab-content hidden">
+        <h2 class="text-2xl font-bold mb-4">Content for Tab 3</h2>
+        <p>This is the content for Tab 3. Replace with your desired content.</p>
+      </div>
+      <div id="tab4" class="tab-content hidden">
+        <h2 class="text-2xl font-bold mb-4">Content for Tab 4</h2>
+        <p>This is the content for Tab 4. Modify as needed.</p>
+      </div>
+      <div id="tab5" class="tab-content hidden">
+        <h2 class="text-2xl font-bold mb-4">Content for Tab 5</h2>
+        <p>This is the content for Tab 5. Customize this section.</p>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const tabLinks = document.querySelectorAll('.tab-link');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabLinks.forEach(link => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            // Remove active class from all links
+            tabLinks.forEach(l => l.classList.remove('text-white', 'bg-blue-600', 'active'));
+            // Add active class to clicked link
+            link.classList.add('text-white', 'bg-blue-600', 'active');
+
+            // Hide all tab contents
+            tabContents.forEach(content => content.classList.add('hidden'));
+            // Show the selected tab content
+            const tabId = link.getAttribute('data-tab');
+            document.getElementById(tabId).classList.remove('hidden');
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
