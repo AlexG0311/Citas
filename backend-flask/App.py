@@ -20,7 +20,7 @@ def cliente_inicio():
     return render_template('ClienteInicio.html')
 
 
-@app.route('/AdminInicio')
+@app.route('/Admin')
 def admin_inicio():
     return render_template('inicioAdmin.html')
 
