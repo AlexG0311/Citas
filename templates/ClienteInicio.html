@@ -1,27 +1,57 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Cliente Inicio</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
+<title>Cliente Inicio</title>
+<script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="flex flex-col items-center justify-start min-h-screen bg-gray-100 font-sans p-4">
-    <nav class="w-full flex justify-end mb-6">
-        <div class="contenedorNavCliente">
-            <img src="{{ url_for('static', filename='usuario.png') }}" alt="Usuario" class="w-12 h-12 rounded-full">
+<body class="flex flex-col items-center min-h-screen bg-gray-100 font-sans">
+    <!-- NAV -->
+    <nav class="w-full flex justify-between mb-6 bg-blue-500 p-4">
+         <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="h-10">
+        <div class="flex items-center space-x-2">
+           <div class="text-right">
+                <p class="text-sm font-semibold">María Fernanda García Conde</p>
+                <p class="text-xs text-gray-500">Afiliado: MUTUAL SER EPS</p>
+            </div>
+            <img src="{{ url_for('static', filename='usuario.png') }}" alt="Usuario" class="w-10 h-10 rounded-full border">
+            <a href="/logout">Cerrar sesión</a>
         </div>
     </nav>
-    <h1 class="text-3xl font-bold mb-6">Bienvenido, María</h1>
-    <section class="bg-blue-500 p-6 rounded-lg shadow-md">
-        <div class="grid grid-cols-2 gap-4">
-            <div class="bg-white p-4 rounded-lg shadow-md hover:scale-105 hover:shadow-lg transition-transform duration-300 ease-in-out cursor-pointer text-center">
-                Agendar Cita
+   
+
+    <!-- Saludo -->
+    <section class="text-center mt-8">
+        <h1 class="text-3xl font-bold text-blue-700">Bienvenido, {{ nombre }}</h1>
+
+    </section>
+
+    <!-- Opciones -->
+    <section class="bg-white max-w-md mx-auto mt-8 p-6 rounded-lg shadow-md">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Opción 1 -->
+            <div class="bg-blue-100 p-4 rounded-lg flex flex-col items-center shadow hover:shadow-lg transition">
+                <img src="{{ url_for('static', filename='calendar.png') }}" alt="Agendar" class="w-16 h-16 mb-2">
+                <h2 class="font-semibold text-lg text-gray-700 mb-2">Agendar Cita</h2>
+                <a href="{{ url_for('agendar_cita') }}" class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                    Ir
+                </a>
             </div>
-            <div class="bg-white p-4 rounded-lg shadow-md hover:scale-105 hover:shadow-lg transition-transform duration-300 ease-in-out cursor-pointer text-center">
-                Ver Citas
+
+            <!-- Opción 2 -->
+            <div class="bg-green-100 p-4 rounded-lg flex flex-col items-center shadow hover:shadow-lg transition">
+                <img src="{{ url_for('static', filename='list.png') }}" alt="Ver Citas" class="w-16 h-16 mb-2">
+                <h2 class="font-semibold text-lg text-gray-700 mb-2">Ver Citas</h2>
+                <a href="{{ url_for('ver_citas') }}" class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">
+                    Ir
+                </a>
             </div>
         </div>
     </section>
-    <a href="{{ url_for('index') }}" class="mt-6 text-blue-500 hover:underline">Volver a la página principal</a>
+
+    <!-- Volver -->
+    <div class="text-center mt-6">
+        <a href="{{ url_for('index') }}" class="text-blue-500 hover:underline">Volver a la página principal</a>
+    </div>
 </body>
 </html>
