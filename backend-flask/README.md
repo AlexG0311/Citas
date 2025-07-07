@@ -15,3 +15,16 @@ Deberías verlo (.venv) en el indicador del terminal, indicando que el entorno v
 # 3. Instalar Flask
 Con el entorno virtual activo, instale Flask:
 # pip install flask
+
+
+# Paquetes para la db
+pip install flask flask-sqlalchemy pymysql
+
+
+# CORS 
+para no bloquear la solicitud de la db
+
+# Requeriments 
+asi se creo el archivo para instalar dependecias  ----> (pip freeze > requirements.txt)
+pip install -r requirements.txt
+

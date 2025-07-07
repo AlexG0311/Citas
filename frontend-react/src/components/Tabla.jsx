@@ -1,5 +1,6 @@
 import React from "react";
-import { users, columns, statusOptions, capitalize } from "./users";
+import { useEffect, useState } from "react";
+
 import {
   Table,
   TableHeader,
@@ -25,7 +26,7 @@ export const PlusIcon = ({size = 24, width, height, ...props}) => {
       fill="none"
       focusable="false"
       height={size || height}
-      role="presentation"
+      date="presentation"
       viewBox="0 0 24 24"
       width={size || width}
       {...props}
@@ -51,7 +52,7 @@ export const VerticalDotsIcon = ({size = 24, width, height, ...props}) => {
       fill="none"
       focusable="false"
       height={size || height}
-      role="presentation"
+      date="presentation"
       viewBox="0 0 24 24"
       width={size || width}
       {...props}
@@ -71,7 +72,7 @@ export const SearchIcon = (props) => {
       fill="none"
       focusable="false"
       height="1em"
-      role="presentation"
+      date="presentation"
       viewBox="0 0 24 24"
       width="1em"
       {...props}
@@ -101,7 +102,7 @@ export const ChevronDownIcon = ({strokeWidth = 1.5, ...otherProps}) => {
       fill="none"
       focusable="false"
       height="1em"
-      role="presentation"
+      date="presentation"
       viewBox="0 0 24 24"
       width="1em"
       {...otherProps}
@@ -119,26 +120,48 @@ export const ChevronDownIcon = ({strokeWidth = 1.5, ...otherProps}) => {
 };
 
 const statusColorMap = {
-  active: "success",
-  paused: "danger",
-  vacation: "warning",
+  Activo: "success",
+  Inactivo: "danger",
 };
 
-const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
 
-export default function App() {
+const INITIAL_VISIBLE_COLUMNS = ["name", "date", "status", "actions"];
+
+export default function Tabla({ conf_tabla, url_api  }) {
+
+ const { columns, capitalize, statusOptions } = conf_tabla ;
+console.log("conf_tabla recibido:", conf_tabla);
+
+const [users, setUsers] = useState([]);
+
+useEffect(() => {
+  fetch(url_api)
+    .then((res) => res.json())
+    .then((data) => {
+      const adaptados = data.map((item) => ({
+        id: item.id,
+        name: item.nombre, // Ajuste de nombre
+        dur: item.duracion, // Ajuste de duracion
+        date: item.fecha, // Ajuste de fecha
+        status: item.estado_servicio || "Sin estado", // Manejo de null
+      }));
+      setUsers(adaptados);
+    })
+    .catch((err) => console.error("Error al cargar servicios:", err));
+}, []);
+
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
   const [visibleColumns, setVisibleColumns] = React.useState(new Set(INITIAL_VISIBLE_COLUMNS));
   const [statusFilter, setStatusFilter] = React.useState("all");
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPdur, setRowsPerPdur] = React.useState(5);
   const [sortDescriptor, setSortDescriptor] = React.useState({
-    column: "age",
+    column: "dur",
     direction: "ascending",
   });
-  const [page, setPage] = React.useState(1);
+  const [pdur, setPdur] = React.useState(1);
 
-  const pages = Math.ceil(users.length / rowsPerPage);
+  const pdurs = Math.ceil(users.length / rowsPerPdur);
 
   const hasSearchFilter = Boolean(filterValue);
 
@@ -166,11 +189,11 @@ export default function App() {
   }, [users, filterValue, statusFilter]);
 
   const items = React.useMemo(() => {
-    const start = (page - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
+    const start = (pdur - 1) * rowsPerPdur;
+    const end = start + rowsPerPdur;
 
     return filteredItems.slice(start, end);
-  }, [page, filteredItems, rowsPerPage]);
+  }, [pdur, filteredItems, rowsPerPdur]);
 
   const sortedItems = React.useMemo(() => {
     return [...items].sort((a, b) => {
@@ -199,7 +222,7 @@ export default function App() {
             {user.email}
           </User>
         );
-      case "role":
+      case "date":
         return (
           <div className="flex flex-col">
             <p className="text-bold text-small capitalize">{cellValue}</p>
@@ -239,15 +262,15 @@ export default function App() {
     }
   }, []);
 
-  const onRowsPerPageChange = React.useCallback((e) => {
-    setRowsPerPage(Number(e.target.value));
-    setPage(1);
+  const onRowsPerPdurChange = React.useCallback((e) => {
+    setRowsPerPdur(Number(e.target.value));
+    setPdur(1);
   }, []);
 
   const onSearchChange = React.useCallback((value) => {
     if (value) {
       setFilterValue(value);
-      setPage(1);
+      setPdur(1);
     } else {
       setFilterValue("");
     }
@@ -330,10 +353,10 @@ export default function App() {
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">Total {users.length} users</span>
           <label className="flex items-center text-default-400 text-small">
-            Rows per page:
+            Rows per pdur:
             <select
               className="bg-transparent outline-none text-default-400 text-small"
-              onChange={onRowsPerPageChange}
+              onChange={onRowsPerPdurChange}
             >
               <option value="5">5</option>
               <option value="10">10</option>
@@ -348,7 +371,7 @@ export default function App() {
     statusFilter,
     visibleColumns,
     onSearchChange,
-    onRowsPerPageChange,
+    onRowsPerPdurChange,
     users.length,
     hasSearchFilter,
   ]);
@@ -363,10 +386,10 @@ export default function App() {
           }}
           color="default"
           isDisabled={hasSearchFilter}
-          page={page}
-          total={pages}
+          pdur={pdur}
+          total={pdurs}
           variant="light"
-          onChange={setPage}
+          onChange={setPdur}
         />
         <span className="text-small text-default-400">
           {selectedKeys === "all"
@@ -375,7 +398,7 @@ export default function App() {
         </span>
       </div>
     );
-  }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
+  }, [selectedKeys, items.length, pdur, pdurs, hasSearchFilter]);
 
   const classNames = React.useMemo(
     () => ({

@@ -1,54 +1,27 @@
-from flask import Flask, render_template, jsonify, request
-
-app = Flask(__name__, template_folder='templates')
-
-# Variable global para el contador
-counter = 0
-
-@app.route('/')
-def index():
-    return render_template('index.html', counter=counter)
-
-@app.route('/increment', methods=['POST'])
-def increment():
-    global counter
-    counter += 1
-    return jsonify({'counter': counter})
-
-@app.route('/ClienteInicio')
-def cliente_inicio():
-    return render_template('ClienteInicio.html')
+from db import app, db
+from routes.servicios import servicios_bp
+from routes.estados import estados_bp
+from sqlalchemy import text
+from flask_cors import CORS
+from sqlalchemy.exc import OperationalError
 
 
-@app.route('/Admin')
-def admin_inicio():
-    return render_template('inicioAdmin.html')
+CORS(app)   
+# Registrar rutas
+app.register_blueprint(servicios_bp)
+app.register_blueprint(estados_bp)
 
-@app.route('/Servicios_Ofrecidos')
-def servicios_ofrecidos():
-    return render_template('servicios_ofrecidos.html')
+with app.app_context():
+    try:
+        # Verificar conexión con text()
+        db.session.execute(text('SELECT 1'))
+        print("✅ Conexión a la base de datos establecida correctamente.")
 
-@app.route('/Registro_ personal')
-def registro_personal():
-    return render_template('registro_personal.html')
+        # Crear tablas si no existen
+        db.create_all()
+    except OperationalError as e:
+        print("❌ Error al conectar a la base de datos:")
+        print(e)
 
-@app.route('/Servicio_de_citas')
-def servicio_de_citas():
-    return render_template('servicio_de_citas.html')
-
-@app.route('/Horario_profesional')
-def horario_profesional():
-    return render_template('horario_profesional.html')
-
-@app.route('/Sedes')
-def sedes():
-    return render_template('sedes.html')
-
-@app.route('/Estadisticas')
-def estadisticas():
-    return render_template('estadisticas.html')
-
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
