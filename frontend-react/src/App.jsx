@@ -8,6 +8,7 @@ import SedesListado from './pages/SedesListado'
 import Citas from './pages/Citas'
 import Horario from './pages/Horario'
 import Sedes from './pages/Sedes'
+import './App.css';
 import Estadisticas from './pages/Estadisticas'
 
 function App() {

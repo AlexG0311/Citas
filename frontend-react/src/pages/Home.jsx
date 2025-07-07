@@ -1,6 +1,7 @@
 // src/pages/Home.jsx
 import { useNavigate } from "react-router-dom";
 
+
 export default function Home() {
   const navigate = useNavigate();
 
@@ -29,7 +30,11 @@ export default function Home() {
         >
           Ingresar como Doctor
         </button>
+
+        <Tabla/>
       </div>
+
+
     </div>
   );
 }

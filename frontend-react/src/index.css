@@ -1,9 +1,6 @@
-@import "tailwindcss";
- @plugin "daisyui" {
-  themes: light --default, dark --prefersdark;
-  themes: light --default;
- }
 
- body{
-    background-color: rgb(224, 224, 224);
- }
+ @import "tailwindcss";
+ @plugin './hero.ts';
+
+ @source '../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+ @custom-variant dark (&:is(.dark *));
