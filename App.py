@@ -7,10 +7,10 @@ app.secret_key = 'un_secreto'
 
 def get_db_connection():
     return mysql.connector.connect(
-        host='localhost',
-        user='root',
-        password='1234',
-        database='mydb'
+        host='b8gcblrapupqzdgkru1t-mysql.services.clever-cloud.com', 
+        user='uh5nyjlpklikywna',
+        password='ZUdUUxf6kesk5w8OW3JV',
+        database='b8gcblrapupqzdgkru1t'
     )
 
 # Login y logout
