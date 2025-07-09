@@ -1,11 +1,9 @@
 export const columns = [
   { name: "ID", uid: "id", sortable: true },
   { name: "NOMBRE", uid: "name", sortable: true },
-  { name: "APELLIDO", uid: "apellido", sortable: true },
-  { name: "CORREO", uid: "correo", sortable: true },
+  { name: "DIRECCION", uid: "direccion", sortable: true },
   { name: "TELEFONO", uid: "telefono", sortable: true },
-  { name: "ESPECIALIDAD", uid: "especialidad", sortable: true },
-  { name: "SEDE", uid: "sede", sortable: true },
+  { name: "CIUDAD", uid: "ciudad", sortable: true },
   { name: "STATUS", uid: "status", sortable: true },
   { name: "ACTIONS", uid: "actions" },
 ];
@@ -16,6 +14,19 @@ export const statusOptions = [
 ];
 
 
+export const initial_colum = ["name","direccion","telefono", "ciudad","status", "actions"];
+
+
+
+export const camposAdaptar = {
+  id: "id",
+  name: "nombre",
+  direccion: "direccion",
+  telefono: "telefono",
+  ciudad: "ciudad",
+  status: "estado",
+  
+};
 
 export function capitalize(s) {
   return s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : "";

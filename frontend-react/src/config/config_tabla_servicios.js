@@ -7,10 +7,23 @@ export const columns = [
   { name: "ACTIONS", uid: "actions" },
 ];
 
+
+export const initial_colum = ["name","dur", "date", "status", "actions"];
+
 export const statusOptions = [
   { name: "Activo", uid: "Activo" },
   { name: "Inactivo", uid: "Inactivo" },
 ];
+
+
+export const camposAdaptar = {
+  id: "id",
+  name: "nombre",
+  dur: "duracion",
+  date: "fecha",
+  status: "estado_servicio",
+};
+
 
 
 

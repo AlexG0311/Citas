@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 
+
 import {
   Table,
   TableHeader,
@@ -125,30 +126,41 @@ const statusColorMap = {
 };
 
 
-const INITIAL_VISIBLE_COLUMNS = ["name", "date", "status", "actions"];
 
-export default function Tabla({ conf_tabla, url_api  }) {
 
- const { columns, capitalize, statusOptions } = conf_tabla ;
+export default function Tabla({ conf_tabla, url_api, onEdit, onDelete  }) {
+
+ const { columns, capitalize, statusOptions, initial_colum, camposAdaptar } = conf_tabla ;
+
+const INITIAL_VISIBLE_COLUMNS = initial_colum;
+
 console.log("conf_tabla recibido:", conf_tabla);
 
 const [users, setUsers] = useState([]);
+
+const adaptarDatos = (data, camposAdaptar) => {
+  return data.map((item) => {
+    const adaptado = {};
+
+    for (const [uid, fieldName] of Object.entries(camposAdaptar)) {
+      adaptado[uid] = item[fieldName] ?? "Sin dato";
+    }
+
+    return adaptado;
+  });
+};
+
 
 useEffect(() => {
   fetch(url_api)
     .then((res) => res.json())
     .then((data) => {
-      const adaptados = data.map((item) => ({
-        id: item.id,
-        name: item.nombre, // Ajuste de nombre
-        dur: item.duracion, // Ajuste de duracion
-        date: item.fecha, // Ajuste de fecha
-        status: item.estado_servicio || "Sin estado", // Manejo de null
-      }));
+      const adaptados = adaptarDatos(data, camposAdaptar);
       setUsers(adaptados);
     })
-    .catch((err) => console.error("Error al cargar servicios:", err));
-}, []);
+    .catch((err) => console.error("Error al cargar datos:", err));
+}, [url_api]);
+
 
   const [filterValue, setFilterValue] = React.useState("");
   const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
@@ -241,22 +253,37 @@ useEffect(() => {
           </Chip>
         );
       case "actions":
-        return (
-          <div className="relative flex justify-end items-center gap-2">
-            <Dropdown className="bg-background border-1 border-default-200">
-              <DropdownTrigger>
-                <Button isIconOnly radius="full" size="sm" variant="light">
-                  <VerticalDotsIcon className="text-default-400" />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem key="view">View</DropdownItem>
-                <DropdownItem key="edit">Edit</DropdownItem>
-                <DropdownItem key="delete">Delete</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-          </div>
-        );
+      return (
+      <div className="relative flex justify-end items-center gap-2">
+        <Dropdown className="bg-background border-1 border-default-200">
+          <DropdownTrigger>
+            <Button isIconOnly radius="full" size="sm" variant="light">
+              <VerticalDotsIcon className="text-default-400" />
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu>
+            <DropdownItem key="view">View</DropdownItem>
+            
+            <DropdownItem
+              key="edit"
+              onClick={() => onEdit && onEdit(user)} // fila representa los datos de esa fila
+            >
+              Edit
+            </DropdownItem>
+
+            <DropdownItem
+            key="delete"
+            className="text-danger"
+            color="danger"
+            onClick={() => onDelete && onDelete(user)}
+          >
+            Delete
+          </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+  </div>
+);
+
       default:
         return cellValue;
     }
@@ -345,10 +372,10 @@ useEffect(() => {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button className="bg-foreground text-background" endContent={<PlusIcon />} size="sm">
-              Add New
-            </Button>
+  
           </div>
+
+
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">Total {users.length} users</span>

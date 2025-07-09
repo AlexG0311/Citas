@@ -1,4 +1,15 @@
-# Citas
+# Estructura de paquetes 
+
+app/
+├── models/
+│   └── models.py
+├── routes/
+│   └── profesionales.py
+│   └── sede.py
+│   └── estado_profesional.py
+├── __init__.py
+└── app.py
+
 
 # Configuración paso a paso
 # 1. Crear una nueva carpeta de proyecto
@@ -22,9 +33,10 @@ pip install flask flask-sqlalchemy pymysql
 
 
 # CORS 
-para no bloquear la solicitud de la db
+para no bloquear la solicitud de la api
 
 # Requeriments 
 asi se creo el archivo para instalar dependecias  ----> (pip freeze > requirements.txt)
-pip install -r requirements.txt
+Solo ejecutar ------->   pip install -r requirements.txt
+
 

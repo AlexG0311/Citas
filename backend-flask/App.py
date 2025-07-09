@@ -1,6 +1,15 @@
 from db import app, db
 from routes.servicios import servicios_bp
 from routes.estados import estados_bp
+from routes.estado_profesional import estado_bp
+from routes.profesionales import profesional_bp
+from routes.sede import sede_bp
+
+from routes.clientes import clientes_bp
+from routes.citas import citas_bp
+
+
+
 from sqlalchemy import text
 from flask_cors import CORS
 from sqlalchemy.exc import OperationalError
@@ -10,6 +19,14 @@ CORS(app)
 # Registrar rutas
 app.register_blueprint(servicios_bp)
 app.register_blueprint(estados_bp)
+
+app.register_blueprint(estado_bp)
+app.register_blueprint(sede_bp)
+app.register_blueprint(profesional_bp)
+
+app.register_blueprint(clientes_bp)
+app.register_blueprint(citas_bp)
+
 
 with app.app_context():
     try:

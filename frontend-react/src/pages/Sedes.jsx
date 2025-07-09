@@ -1,52 +1,37 @@
-import Sidebar from '../components/Sidebar'
 import Navbar from '../components/Navbar'
+import Tabla from '../components/Tabla'
+import * as conf_tabla_servicios from '../config/config_tabla_sedes';
 
-function Sedes() {
-  const sidebarLinks = [
-    { to: '/Sedes/listado', label: 'Listado' },
-    { to: '/Sedes/crear', label: 'Crear' },
-  ]
+const url = "http://localhost:5000/sedes";
 
-  return (
-    <div className="min-h-screen flex flex-col">
-      {/* Navbar arriba */}
+function Citas() {
+
+   return (
+   <div className="min-h-screen flex flex-col">
+      {/* Navbar arriba */} 
       <Navbar />
 
-      {/* Contenedor con márgenes */}
+      {/* Contenido cor margen */}
       <div className="flex-1 px-8 py-6">
-        <div className="flex bg-white rounded-lg shadow-md overflow-hidden">
-          {/* Sidebar */}
-          <Sidebar links={sidebarLinks} />
+       <div className="flex bg-white rounded-lg shadow-md overflow-hidden">
+ 
 
-          {/* Contenido principal */}
-          <div className="flex-1 p-8">
-            <h2 className="text-xl font-bold text-blue-600 mb-4 text-center">
-              Registrar Sede
-            </h2>
-            <form className="max-w-md mx-auto">
-              <div className="mb-4">
-                <label className="block mb-1">Nombre del servicio:</label>
-                <input
-                  type="text"
-                  className="w-full border px-3 py-2 rounded"
-                />
+        {/* Contenido principal */}
+        <div className="fbg-white w-full  rounded shadow-md  ">
+          
+              <div className="overflow-x-auto">
+                    <Tabla 
+                    conf_tabla ={conf_tabla_servicios}
+                    url_api = {url} 
+                    
+                    />
               </div>
-              <div className="mb-4">
-                <label className="block mb-1">Descripción:</label>
-                <input
-                  type="text"
-                  className="w-full border px-3 py-2 rounded"
-                />
-              </div>
-              <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full">
-                Registrar Servicio
-              </button>
-            </form>
-          </div>
+         
         </div>
       </div>
     </div>
+    </div>
   )
 }
+export default Citas
 
-export default Sedes
