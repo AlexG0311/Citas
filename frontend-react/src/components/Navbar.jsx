@@ -5,7 +5,7 @@ function Navbar() {
     { name: 'Home', path: '/dashboard' },
     { name: 'Servicios Ofrecidos', path: '/servicios/listado' },
     { name: 'Registro Personal', path: '/personal/listado' },
-    { name: 'Citas agendadas', path: '/citas' },
+    { name: 'Gestionar Citas', path: '/citas' },
     { name: 'Horario Profesional', path: '/horario' },
     { name: 'Sedes', path: '/sedes/listado' },
     { name: 'Estadísticas', path: '/estadisticas' },

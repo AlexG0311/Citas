@@ -1,6 +1,13 @@
 from db import db
 from datetime import datetime, time, date
 
+# 👇 Mueve esto arriba
+servicios_profesionales = db.Table(
+    'servicios_has_profesionales',
+    db.Column('Servicios_id', db.Integer, db.ForeignKey('servicios.id'), primary_key=True),
+    db.Column('Profesionales_id', db.Integer, db.ForeignKey('profesionales.id'), primary_key=True)
+)
+
 
 class EstadoServicio(db.Model):
     __tablename__ = 'estado_servicio'
@@ -23,22 +30,29 @@ class Servicio(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nombre = db.Column(db.String(45), nullable=False)
     duracion = db.Column(db.Integer, nullable=False)
-    estado = db.Column(db.Boolean, nullable=False, default=True)
     fecha = db.Column(db.DateTime, default=datetime.utcnow)
     id_estado = db.Column(db.Integer, db.ForeignKey('estado_servicio.id'), nullable=False)
 
     citas = db.relationship('Cita', backref='servicio', lazy=True)
+
+    # ✅ Relación muchos a muchos
+    profesionales = db.relationship(
+        'Profesional',
+        secondary=servicios_profesionales,
+        back_populates='servicios'
+    )
 
     def to_dict(self):
         return {
             "id": self.id,
             "nombre": self.nombre,
             "duracion": self.duracion,
-            "estado": self.estado,
             "fecha": self.fecha.isoformat(),
             "id_estado": self.id_estado,
-            "estado_servicio": self.estado_servicio.nombre_estado if self.estado_servicio else None
+            "estado_servicio": self.estado_servicio.nombre_estado if self.estado_servicio else None,
+            "profesionales": [f"{p.nombre} {p.apellido}" for p in self.profesionales]
         }
+
 
 
 class EstadoProfesional(db.Model):
@@ -96,6 +110,12 @@ class Profesional(db.Model):
 
     citas = db.relationship('Cita', backref='profesional', lazy=True, passive_deletes=True)
 
+    # ✅ Relación muchos a muchos
+    servicios = db.relationship(
+        'Servicio',
+        secondary=servicios_profesionales,
+        back_populates='profesionales'
+    )
 
     def to_dict(self):
         return {
@@ -110,8 +130,10 @@ class Profesional(db.Model):
             "estado": self.estado,
             "estado_profesional": self.estado_profesional.nombre if self.estado_profesional else None,
             "sede_id": self.sede_id,
-            "sede": self.sede.nombre if self.sede else None
+            "sede": self.sede.nombre if self.sede else None,
+            "servicios": [s.nombre for s in self.servicios]
         }
+
 
 
 # ✅ NUEVO MODELO: Cliente
@@ -126,6 +148,7 @@ class Cliente(db.Model):
     edad = db.Column(db.Integer, nullable=False)
     contraseña = db.Column(db.String(45), nullable=False)
     estado = db.Column(db.Boolean, nullable=False, default=True)
+    cedula = db.Column(db.String(45), unique=True, nullable=False)
 
     citas = db.relationship('Cita', backref='cliente', lazy=True)
 
@@ -137,7 +160,8 @@ class Cliente(db.Model):
             "correo": self.correo,
             "numero": self.numero,
             "edad": self.edad,
-            "estado": self.estado
+            "estado": self.estado,
+            'cedula': self.cedula
         }
 
 
@@ -184,3 +208,72 @@ class EstadoSede(db.Model):
             "id": self.id,
             "nombre": self.nombre
         }
+
+
+# models.py
+
+class Modalidad(db.Model):
+    __tablename__ = 'modalidad'
+
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(50), nullable=False)
+    estado_id = db.Column(db.Boolean, default=True)
+
+    # ✅ Quita esta línea
+    # horarios = db.relationship('Horario', backref='modalidad', lazy=True)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre,
+            "estado_id": self.estado_id
+        }
+class Horario(db.Model):
+    __tablename__ = 'horario'
+
+    id = db.Column(db.Integer, primary_key=True)
+    estado = db.Column(db.String(20), nullable=False)
+    fecha = db.Column(db.String(45), nullable=False)
+    hora_inicio = db.Column(db.Time, nullable=False)
+    hora_fin = db.Column(db.Time, nullable=False)
+
+    profesionales_id = db.Column(
+        db.Integer,
+        db.ForeignKey('profesionales.id', ondelete='CASCADE'),
+        nullable=False
+    )
+    modalidad_id = db.Column(
+        db.Integer,
+        db.ForeignKey('modalidad.id'),
+        nullable=False
+    )
+    sede_id = db.Column(
+        db.Integer,
+        db.ForeignKey('sede.id'),
+        nullable=False
+    )
+
+    # Relaciones
+    profesional = db.relationship('Profesional', backref=db.backref('horarios', passive_deletes=True))
+    modalidad = db.relationship('Modalidad', backref='horarios')
+    sede = db.relationship('Sede', backref='horarios')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "estado": self.estado,
+            "fecha": self.fecha,
+            "hora_inicio": self.hora_inicio.strftime('%H:%M:%S'),
+            "hora_fin": self.hora_fin.strftime('%H:%M:%S'),
+            "profesionales_id": self.profesionales_id,
+            "profesional_nombre": self.profesional.nombre if self.profesional else None,
+            "modalidad_id": self.modalidad_id,
+            "modalidad_nombre": self.modalidad.nombre if self.modalidad else None,
+            "sede_id": self.sede_id,
+            "sede_nombre": self.sede.nombre if self.sede else None
+        }
+
+
+
+
+

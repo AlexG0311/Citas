@@ -19,7 +19,6 @@ def crear_servicio():
     nuevo = Servicio(
         nombre=data['nombre'],
         duracion=data['duracion'],
-        estado=data.get('estado', True),
         id_estado=data['id_estado']
     )
     db.session.add(nuevo)
@@ -32,7 +31,6 @@ def actualizar_servicio(id):
     data = request.json
     s.nombre = data.get('nombre', s.nombre)
     s.duracion = data.get('duracion', s.duracion)
-    s.estado = data.get('estado', s.estado)
     s.id_estado = data.get('id_estado', s.id_estado)
     db.session.commit()
     return jsonify(s.to_dict())
@@ -43,3 +41,18 @@ def eliminar_servicio(id):
     db.session.delete(s)
     db.session.commit()
     return jsonify({"mensaje": "Servicio eliminado"}), 200
+
+
+@servicios_bp.route('/servicios/<int:servicio_id>/profesionales', methods=['GET'])
+def obtener_profesionales_por_servicio(servicio_id):
+    servicio = Servicio.query.get_or_404(servicio_id)
+    profesionales = servicio.profesionales
+    return jsonify([
+        {
+            'id': p.id,
+            'nombre': p.nombre,
+            'apellido': p.apellido
+        } for p in profesionales
+    ])
+
+

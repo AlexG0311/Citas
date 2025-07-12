@@ -4,14 +4,14 @@ import ModalCrearServicio from '../components/ModalCrearServicio';
 import { useState } from "react";
 import ModalEditarServicio from '../components/ModalEditarServicio';
 import * as conf_tabla_servicios from '../config/config_tabla_servicios';
-
+import ModalAsociarServicio from '../components/ModalAsociarServicio';
 const url = "http://localhost:5000/servicios";
 
 function CrearServicio() {
   const [showModal, setShowModal] = useState(false);
   const [showModalEditar, setShowModalEditar] = useState(false);
   const [datosAEditar, setDatosAEditar] = useState(null);
- 
+  const [showModalAsignar, setShowModalAsignar] = useState(false);
 
   const handleAddServicio = async (servicioData) => {
     try {
@@ -35,6 +35,26 @@ function CrearServicio() {
     }
   };
 
+
+
+const AsignarServicios = async ({ profesional_id, servicio_id }) => {
+  try {
+    const res = await fetch("http://localhost:5000/asociar_servicio_profesional", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ profesional_id, servicio_id })
+    });
+
+    const data = await res.json();
+    alert(data.message || "Servicio asignado correctamente");
+  } catch (error) {
+    console.error("Error al asignar servicio:", error);
+    alert("Ocurrió un error al asignar el servicio.");
+  }
+};
+
+
+
  const eliminarProfesional = async (id) => {
     const res = await fetch(`${url}/${id}`, {
       method: 'DELETE'
@@ -42,7 +62,7 @@ function CrearServicio() {
     if (!res.ok) throw new Error('Error al eliminar profesional');
   };
 
-const editarProfesional = async (data) => {
+const editarServicio = async (data) => {
     const res = await fetch(`${url}/${data.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -66,16 +86,30 @@ const editarProfesional = async (data) => {
                 Agregar Servicio
               </button>
 
+                <button
+                onClick={() => setShowModalAsignar(true)}
+                className="bg-black text-white px-4 ml-4 mb-2 py-2 rounded hover:bg-gray-400"
+              >
+                Asignar servicio
+              </button>
+
               <ModalCrearServicio
                 isOpen={showModal}
                 onClose={() => setShowModal(false)}
                 onSubmit={handleAddServicio}
               />
 
+              <ModalAsociarServicio
+                isOpen={showModalAsignar}
+                onClose={() => setShowModalAsignar(false)}
+                onSubmit={AsignarServicios}
+              />
+
+
                 <ModalEditarServicio
                  isOpen={showModalEditar}
                  onClose={() => setShowModalEditar(false)}
-                 onSubmit={editarProfesional}
+                 onSubmit={editarServicio}
                  datosIniciales={datosAEditar}
                />             
 

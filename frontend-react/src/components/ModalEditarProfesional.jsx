@@ -16,26 +16,40 @@ export default function ModalEditarProfesional({ isOpen, onClose, onSubmit, dato
   });
 
   const [mensaje, setMensaje] = useState(null);
+  const [estados, setEstados] = useState([]);
+  const [sedes, setSedes] = useState([]);
+
+  // Cargar estados y sedes
+  useEffect(() => {
+    fetch("http://localhost:5000/estado-servicio")
+      .then((res) => res.json())
+      .then((data) => setEstados(data))
+      .catch((err) => console.error("Error cargando estados:", err));
+
+    fetch("http://localhost:5000/sedes")
+      .then((res) => res.json())
+      .then((data) => setSedes(data))
+      .catch((err) => console.error("Error cargando sedes:", err));
+  }, []);
 
   useEffect(() => {
-  if (datosIniciales) {
-    setFormData({
-      id: datosIniciales.id ?? '',
-      nombre: datosIniciales.nombre ?? datosIniciales.name ?? '',
-      apellido: datosIniciales.apellido ?? '',
-      correo: datosIniciales.correo ?? '',
-      cedula: datosIniciales.cedula ?? '',
-      telefono: datosIniciales.telefono ?? '',
-      especialidad: datosIniciales.especialidad ?? '',
-      contrasena: datosIniciales.contrasena ?? datosIniciales.contraseña ?? '',
-      estado:
-        datosIniciales.estado ??
-        (datosIniciales.status === 'Activo' ? 1 : datosIniciales.status === 'Inactivo' ? 0 : 1),
-      sede_id: datosIniciales.sede_id ?? datosIniciales.sede ?? '',
-    });
-  }
-}, [datosIniciales]);
-
+    if (datosIniciales) {
+      setFormData({
+        id: datosIniciales.id ?? '',
+        nombre: datosIniciales.nombre ?? datosIniciales.name ?? '',
+        apellido: datosIniciales.apellido ?? '',
+        correo: datosIniciales.correo ?? '',
+        cedula: datosIniciales.cedula ?? '',
+        telefono: datosIniciales.telefono ?? '',
+        especialidad: datosIniciales.especialidad ?? '',
+        contrasena: datosIniciales.contrasena ?? datosIniciales.contraseña ?? '',
+        estado:
+          datosIniciales.estado ??
+          (datosIniciales.status === 'Activo' ? 1 : datosIniciales.status === 'Inactivo' ? 2 : 1),
+        sede_id: datosIniciales.sede_id ?? datosIniciales.sede ?? '',
+      });
+    }
+  }, [datosIniciales]);
 
   const handleClose = () => {
     setMensaje(null);
@@ -53,7 +67,7 @@ export default function ModalEditarProfesional({ isOpen, onClose, onSubmit, dato
       await onSubmit(formData);
       setMensaje({ tipo: 'success', texto: 'Profesional actualizado correctamente' });
     } catch (error) {
-      setMensaje({ tipo: error, texto: 'Error al actualizar el profesional' });
+      setMensaje({ tipo: 'error', texto: 'Error al actualizar el profesional' });
     }
     setTimeout(() => setMensaje(null), 3000);
   };
@@ -72,7 +86,7 @@ export default function ModalEditarProfesional({ isOpen, onClose, onSubmit, dato
         )}
 
         <form onSubmit={handleSubmit} className="space-y-3">
-          {['nombre', 'apellido', 'correo', 'cedula', 'telefono', 'especialidad', 'contrasena', 'sede_id'].map((campo) => (
+          {['nombre', 'apellido', 'correo', 'cedula', 'telefono', 'especialidad', 'contrasena'].map((campo) => (
             <input
               key={campo}
               name={campo}
@@ -84,6 +98,44 @@ export default function ModalEditarProfesional({ isOpen, onClose, onSubmit, dato
               required={campo !== 'contrasena'}
             />
           ))}
+
+          {/* SELECT dinámico de estado */}
+          <div>
+            <label className="block text-sm font-medium mb-1">Estado</label>
+            <select
+              name="estado"
+              value={formData.estado}
+              onChange={handleChange}
+              className="w-full border px-3 py-2 rounded"
+              required
+            >
+              <option value="">Seleccione un estado</option>
+              {estados.map((estado) => (
+                <option key={estado.id} value={estado.id}>
+                  {estado.nombre_estado}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* SELECT dinámico de sede */}
+          <div>
+            <label className="block text-sm font-medium mb-1">Sede</label>
+            <select
+              name="sede_id"
+              value={formData.sede_id}
+              onChange={handleChange}
+              className="w-full border px-3 py-2 rounded"
+              required
+            >
+              <option value="">Seleccione una sede</option>
+              {sedes.map((sede) => (
+                <option key={sede.id} value={sede.id}>
+                  {sede.nombre}
+                </option>
+              ))}
+            </select>
+          </div>
 
           <div className="flex justify-end gap-2 pt-2">
             <button type="button" onClick={handleClose} className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400">Cancelar</button>

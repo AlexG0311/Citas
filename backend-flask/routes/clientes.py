@@ -25,6 +25,7 @@ def create_cliente():
         edad=data["edad"],
         contraseña=data["contraseña"],
         estado=data.get("estado", True)
+        
     )
     db.session.add(cliente)
     db.session.commit()
@@ -52,3 +53,11 @@ def delete_cliente(id):
     db.session.delete(cliente)
     db.session.commit()
     return jsonify({"message": "Cliente eliminado"})
+
+
+@clientes_bp.route('/clientes/cedula/<cedula>', methods=['GET'])
+def obtener_cliente_por_cedula(cedula):
+    cliente = Cliente.query.filter_by(cedula=cedula).first()
+    if cliente:
+        return jsonify(cliente.to_dict())
+    return jsonify({'error': 'Cliente no encontrado'}), 404

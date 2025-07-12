@@ -1,93 +1,66 @@
-import { useState } from 'react'
-import 'cally' 
-import { useEffect } from 'react'
-import dayjs from 'dayjs';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { StaticTimePicker } from '@mui/x-date-pickers/StaticTimePicker';
 import Navbar from '../components/Navbar'
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+import Tabla from '../components/Tabla';
+import * as config_tabla_horario from '../config/config_tabla_horario';
+import { Button } from "@chakra-ui/react"
+import ModalChakraUI from '../components/ModalChakraUI';
+import { useState } from 'react';
 
-const profesionales = ['Dra. Ana Torres', 'Dr. Juan Pérez', 'Lic. Sofía Ríos']
+
+const url = "http://localhost:5000/horario";
+
 
 export default function Horario() {
-  const [profesional, setProfesional] = useState('')
 
-  useEffect(() => {
-    import('cally') // asegúrate de registrar el componente web
-  }, [])
+ const crearHorario = async (data) => {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (!res.ok) throw new Error('Error al crear profesional');
+  };
+
+
+
 
   
+  const [isOpen, setIsOpen] = useState(false)
+
+  const handleOpen = () => setIsOpen(true)
+  const handleClose = () => setIsOpen(false)
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
 
-      <div className="flex-1 flex flex-col items-center justify-center bg-gray-50 p-6">
-        <div className="bg-white  p-8 rounded-lg shadow-lg">
-          <h2 className="text-2xl font-bold mb-6 text-center">Asignar Horario</h2>
+      <div className="flex-1 px-8 py-6">
+              <div className="flex bg-white rounded-lg shadow-md overflow-hidden">
+                <div className="w-full">
+                  <div className="overflow-x-auto">
+                              
+              <Button onClick={handleOpen} colorScheme="blue"  className="bg-black text-white px-4 ml-4 mb-2 py-2 rounded hover:bg-gray-400">
+                  Crear un Horario
+              </Button>
+                  
+                <Tabla
+                conf_tabla={config_tabla_horario}
+                url_api={url}
+             
+              />        
+        
+                  </div>
+            
 
-          {/* Profesional */}
-          <div className="flex justify-center w-full mb-6">
-            <div className="w-40">
-              <label className="block font-medium mb-1">Profesional:</label>
-              <select
-                className="w-full border px-4 py-2 rounded"
-                value={profesional}
-                onChange={(e) => setProfesional(e.target.value)}
-              >
-                <option value="">Seleccione</option>
-                {profesionales.map((pro, i) => (
-                  <option key={i} value={pro}>
-                    {pro}
-                  </option>
-                ))}
-              </select>
+              <ModalChakraUI isOpen={isOpen} onClose={handleClose}
+               onSubmit={crearHorario} />
+  
+                </div>
+              </div>
+
+          
             </div>
-          </div>
-
-
-          {/* Fecha */}
-    <div  className='flex flex-graw '>
-          <div>
-          <label className="block font-medium  mb-1">Asignar Fecha:</label>
-          <calendar-date class="cally  bg-base-100 w-70 h-80  mt-10 border  border-base-300 shadow-lg rounded-box">
-            <svg aria-label="Previous" className="fill-current size-4" slot="previous" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M15.75 19.5 8.25 12l7.5-7.5"></path></svg>
-            <svg aria-label="Next" className="fill-current size-4" slot="next" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="m8.25 4.5 7.5 7.5-7.5 7.5"></path></svg>
-            <calendar-month></calendar-month>
-          </calendar-date>
-          </div>    
-          {/* Hora */}
-          <div className="mb-6 ml-20">
-            <label className="block  font-medium mb-1">Hora:</label>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                 <DemoContainer
-                 components={[
-                 'StaticTimePicker',
-                  ]}
-                 >
-                <DemoItem>
-                  <StaticTimePicker defaultValue={dayjs('2022-04-17T15:30')} />
-                </DemoItem>
-              </DemoContainer>
-              </LocalizationProvider>
-          </div>
-    </div>
-
-          {/* Botón */}
-          <button
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
-            onClick={() => {
-              if (profesional && fecha && hora) {
-                alert(`Horario asignado a ${profesional} el ${fecha} a las ${hora}`)
-              } else {
-                alert('Por favor completa todos los campos.')
-              }
-            }}
-          >
-            Establecer Horario
-          </button>
-        </div>
-      </div>
-    </div>
+     </div>
+     
+    
   )
 }

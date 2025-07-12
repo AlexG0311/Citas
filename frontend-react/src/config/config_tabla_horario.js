@@ -1,18 +1,16 @@
 export const columns = [
   { name: "ID", uid: "id", sortable: true },
+  { name: "ESTADO", uid: "estado", sortable: true },
   { name: "FECHA", uid: "fecha", sortable: true },
-  { name: "ESTDO", uid: "estado", sortable: true },
   { name: "HORA_INICIO", uid: "hora_inicio", sortable: true },
   { name: "HORA_FIN", uid: "hora_fin", sortable: true },
-  { name: "PACIENTE", uid: "cliente", sortable: true },
-  { name: "PROFESIONAL", uid: "profesional", sortable: true },
-  { name: "SERVICIO", uid: "servicio", sortable: true },
-  { name: "SEDE", uid: "sede", sortable: true },
+  { name: "PROFESIONALES", uid: "profesional", sortable: true },
+  { name: "MODALIDAD", uid: "modalidad", sortable: true },
   { name: "ACTIONS", uid: "actions" },
 ];
 
 
-export const initial_colum = ["fecha","estado", "hora_inicio", "hora_fin", "cliente", "profesional", "servicio","sede","actions"];
+export const initial_colum = ["estado","fecha", "hora_inicio", "hora_fin", "profesional","modalidad","actions"];
 
 export const statusOptions = [
   { name: "Activo", uid: "Activo" },
@@ -26,11 +24,8 @@ export const camposAdaptar = {
   estado: "estado",
   hora_inicio: "hora_inicio",
   hora_fin: "hora_fin",
-  cliente: "cliente",
-  profesional: "profesional",
-  servicio: "servicio",
-  sede: "sede",
-  
+  profesional: "profesional_nombre",
+  modalidad: "modalidad_nombre"
 
 };
 
