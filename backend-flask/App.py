@@ -5,6 +5,7 @@ from routes.estado_profesional import estado_bp
 from routes.profesionales import profesional_bp
 from routes.horario  import horario_bp
 from routes.modalidad import modalidad_bp
+from routes.login_admin import admin_bp
 from routes.sede import sede_bp
 from routes.estado_servicio_bp import estado_servicio_bp
 
@@ -26,6 +27,7 @@ from sqlalchemy.exc import OperationalError
 CORS(app)   
 # Registrar rutas
 app.register_blueprint(servicios_bp)
+app.register_blueprint(admin_bp)
 app.register_blueprint(estados_bp)
 app.register_blueprint(horario_bp)
 app.register_blueprint(modalidad_bp)

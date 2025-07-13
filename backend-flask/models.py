@@ -276,4 +276,27 @@ class Horario(db.Model):
 
 
 
+from db import db
+from werkzeug.security import generate_password_hash, check_password_hash
+
+class Admin(db.Model):
+    __tablename__ = 'admin'
+
+    id = db.Column(db.BigInteger, primary_key=True, autoincrement=True)
+    nombre = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(150), unique=True, nullable=False)
+    contrasena_hash = db.Column(db.Text, nullable=False)
+
+    def set_password(self, password):
+        self.contrasena_hash = generate_password_hash(password)
+
+    def verificar_contrasena(self, password):
+        return check_password_hash(self.contrasena_hash, password)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre,
+            "email": self.email
+        }
 

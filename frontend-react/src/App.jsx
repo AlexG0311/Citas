@@ -6,6 +6,7 @@ import ListadoPersonal from './pages/ListadoPersonal'
 import CrearServicio from './pages/CrearServicio'
 import SedesListado from './pages/SedesListado'
 import Citas from './pages/Citas'
+import Login from './pages/Login'
 import Horario from './pages/Horario'
 import Sedes from './pages/Sedes'
 import './App.css';
@@ -14,8 +15,9 @@ import Estadisticas from './pages/Estadisticas'
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/dashboard" />} />
-      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/" element={<Navigate to="/Login" />} />
+      <Route path="/Login" element={<Login/>} />
+      <Route path="/Admin" element={<Dashboard />} />
       <Route path="/servicios/listado" element={<CrearServicio />} />
       <Route path="/servicios/crear" element={<Servicios />} />
       <Route path="/personal/listado" element={<ListadoPersonal />} />

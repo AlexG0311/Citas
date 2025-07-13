@@ -17,7 +17,7 @@ function Dashboard() {
       </nav>
 
       {/* Título */}
-      <h1 className="text-3xl font-bold mb-6 text-center">Bienvenido, María</h1>
+      <h1 className="text-3xl font-bold mb-6 text-center">Bienvenido, Admin</h1>
 
       {/* Cards de navegación */}
       <section className="bg-blue-500 p-6 rounded-lg shadow-md mx-auto mt-10 max-w-[900px] w-full">
