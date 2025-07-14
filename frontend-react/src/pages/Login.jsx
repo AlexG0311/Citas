@@ -77,12 +77,6 @@ export default function Login() {
             </div>
 
             <div className="flex justify-between items-center">
-              <label className="flex items-center text-sm">
-                <input type="checkbox" className="mr-2" /> Remember me
-              </label>
-              <a href="#" className="text-sm text-blue-600 hover:underline">
-                Forgot Password?
-              </a>
             </div>
 
             <button

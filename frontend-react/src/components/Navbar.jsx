@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom'
 
 function Navbar() {
   const tabs = [
-    { name: 'Home', path: '/dashboard' },
+    { name: 'Home', path: '/Admin' },
     { name: 'Servicios Ofrecidos', path: '/servicios/listado' },
     { name: 'Registro Personal', path: '/personal/listado' },
     { name: 'Gestionar Citas', path: '/citas' },
