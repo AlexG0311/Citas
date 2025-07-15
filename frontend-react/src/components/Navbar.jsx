@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom'
+import UserProfile from './UserProfile'
 
 function Navbar() {
   const tabs = [
@@ -26,11 +27,11 @@ function Navbar() {
           {tab.name}
         </NavLink>
       ))}
-       <img
-            src="/user.png" // Asegúrate de que esté en `public/`
-            alt="Usuario"
-            className="w-15 h-10 rounded-full cursor-pointer"
-          />    
+      
+
+      <UserProfile/>
+
+          
     </nav>
   )
 }

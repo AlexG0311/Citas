@@ -130,7 +130,7 @@ const statusColorMap = {
 
 export default function Tabla({ conf_tabla, url_api, onEdit, onDelete  }) {
 
- const { columns, capitalize, statusOptions, initial_colum, camposAdaptar } = conf_tabla ;
+const { columns, capitalize, statusOptions, initial_colum, camposAdaptar } = conf_tabla ;
 
 const INITIAL_VISIBLE_COLUMNS = initial_colum;
 

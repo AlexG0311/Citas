@@ -300,3 +300,4 @@ class Admin(db.Model):
             "email": self.email
         }
 
+

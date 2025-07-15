@@ -1,53 +1,61 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [contrasena, setContrasena] = useState('');
-  const [mensaje, setMensaje] = useState('');
-  const [error, setError] = useState(false); // ✅ controlar tipo de mensaje
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    setLoading(true);
 
-    const res = await fetch('http://localhost:5000/admin/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, contrasena })
-    });
+    try {
+      const res = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include', // Para cookies
+        body: JSON.stringify({ email, contrasena })
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (res.ok) {
-      setMensaje('✅ Inicio de sesión exitoso');
-      setError(false);
-      navigate('/Admin'); 
-      // Aquí podrías guardar token o navegar a dashboard
-    } else {
-      setMensaje(data.error || '❌ Credenciales incorrectas');
-      setError(true); // ✅ marcar como error
+      if (!res.ok) {
+        setError(data.error || 'Error al iniciar sesión');
+        return;
+      }
+
+      // Login exitoso
+      navigate('/admin');
+      
+    } catch (err) {
+      console.error('Error:', err);
+      setError('Error de red. Intenta más tarde.');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="bg-white min-h-screen flex items-center justify-center px-4">
       <div className="flex w-full max-w-5xl shadow-lg rounded-xl overflow-hidden">
-        {/* Left Side (Illustration) */}
+        {/* Imagen izquierda */}
         <div className="hidden md:flex w-1/2 bg-[#030056] items-center justify-center p-8">
-          <img
-            src="/Login.png"
-            alt="Login Illustration"
-            className="w-[100%]"
-          />
+          <img src="/Login.png" alt="Login Illustration" className="w-full" />
         </div>
 
-        {/* Right Side (Form) */}
+        {/* Formulario */}
         <div className="w-full md:w-1/2 bg-white p-10">
           <h2 className="text-3xl font-bold text-gray-800 mb-4">Sign in</h2>
 
-          {mensaje && (
-            <div className={`mb-4 text-sm text-center font-medium px-4 py-2 rounded ${error ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
-              {mensaje}
+          {error && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+              {error}
             </div>
           )}
 
@@ -61,6 +69,7 @@ export default function Login() {
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
+                disabled={loading}
               />
             </div>
 
@@ -73,17 +82,16 @@ export default function Login() {
                 onChange={(e) => setContrasena(e.target.value)}
                 className="w-full mt-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
+                disabled={loading}
               />
-            </div>
-
-            <div className="flex justify-between items-center">
             </div>
 
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200"
+              disabled={loading}
+              className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200 disabled:bg-gray-400"
             >
-              Sign in
+              {loading ? 'Iniciando sesión...' : 'Sign in'}
             </button>
           </form>
         </div>

@@ -3,29 +3,44 @@ from routes.servicios import servicios_bp
 from routes.estados import estados_bp
 from routes.estado_profesional import estado_bp
 from routes.profesionales import profesional_bp
-from routes.horario  import horario_bp
+from routes.horario import horario_bp
 from routes.modalidad import modalidad_bp
 from routes.login_admin import admin_bp
 from routes.sede import sede_bp
 from routes.estado_servicio_bp import estado_servicio_bp
-
-app.register_blueprint(estado_servicio_bp)
-
 from routes.clientes import clientes_bp
 from routes.citas import citas_bp
 from routes.servicio_profesional import servicio_profesional_bp
-
-app.register_blueprint(servicio_profesional_bp)
-
-
-
+from flask_jwt_extended import JWTManager
 from sqlalchemy import text
+from datetime import timedelta
 from flask_cors import CORS
 from sqlalchemy.exc import OperationalError
 
+# ✅ Configurar CORS correctamente (una sola vez)
+CORS(app, 
+     origins=['http://localhost:5173'], 
+     supports_credentials=True)
 
-CORS(app)   
-# Registrar rutas
+# ✅ Configurar JWT con cookies
+app.config['JWT_SECRET_KEY'] = 'tu-clave-secreta-muy-segura'
+app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+app.config['JWT_ACCESS_COOKIE_PATH'] = '/'
+app.config['JWT_COOKIE_SECURE'] = False  # True en producción (HTTPS)
+app.config['JWT_COOKIE_HTTPONLY'] = True
+app.config['JWT_COOKIE_SAMESITE'] = 'Lax'  # Lax permite navegación cruzada controlada
+app.config['JWT_ACCESS_COOKIE_NAME'] = 'access_token'
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
+app.config['JWT_COOKIE_CSRF_PROTECT'] = False  # Solo para desarrollo
+
+# ✅ Inicializar JWT
+jwt = JWTManager(app)
+
+@jwt.user_identity_loader
+def user_identity_lookup(admin_id):
+    return str(admin_id)
+
+# ✅ Registrar rutas
 app.register_blueprint(servicios_bp)
 app.register_blueprint(admin_bp)
 app.register_blueprint(estados_bp)
@@ -34,18 +49,16 @@ app.register_blueprint(modalidad_bp)
 app.register_blueprint(estado_bp)
 app.register_blueprint(sede_bp)
 app.register_blueprint(profesional_bp)
-
+app.register_blueprint(estado_servicio_bp)
+app.register_blueprint(servicio_profesional_bp)
 app.register_blueprint(clientes_bp)
 app.register_blueprint(citas_bp)
 
-
+# ✅ Verificar conexión y crear tablas
 with app.app_context():
     try:
-        # Verificar conexión con text()
         db.session.execute(text('SELECT 1'))
         print("✅ Conexión a la base de datos establecida correctamente.")
-
-        # Crear tablas si no existen
         db.create_all()
     except OperationalError as e:
         print("❌ Error al conectar a la base de datos:")
