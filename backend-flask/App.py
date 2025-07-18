@@ -274,7 +274,7 @@ def generar_franjas(inicio, fin, duracion):
 # Otras vistas estáticas
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('login.html')
 
 
 
