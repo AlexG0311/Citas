@@ -5,8 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Agendar Cita</title>
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
-<body class="flex flex-col items-center min-h-screen bg-gray-100 font-sans">
+
+<body class="bg-gray-100 font-sans">
 
 <!-- NAVBAR -->
 <nav class="w-full flex justify-between mb-6 bg-blue-500 p-4">
@@ -26,22 +28,19 @@
     </li>
   </ul>
   <div class="flex items-center space-x-2">
-           
             <img src="{{ url_for('static', filename='usuario.png') }}" alt="Usuario" class="w-10 h-10 rounded-full border">
             <a href="/logout">Cerrar sesión</a>
     </div>
 </nav>
 
-<!-- Título -->
-<section class="text-center mt-8">
-  <h1 class="text-2xl font-bold text-blue-700">Agendar Cita</h1>
-</section>
+<div class="container mx-auto p-4">
 
-<!-- Contenedor -->
-<section class="bg-white max-w-2xl mx-auto mt-8 p-6 rounded-lg shadow-md space-y-6">
-  <!-- Etapa 1 -->
-  <div>
-    <h2 class="text-lg font-semibold mb-2 text-blue-600">Selecciona el servicio</h2>
+  <h1 class="text-2xl font-bold text-center text-blue-700 mb-4">Agendar Cita</h1>
+
+  <!-- Formulario para servicio -->
+<div class="bg-white p-4 rounded shadow mb-6">
+  <div class="mb-4">
+    <label for="servicio" class="block font-medium">Servicio</label>
     <select id="servicio" class="w-full border rounded p-2">
       <option value="">-- Selecciona un servicio --</option>
       {% for servicio in servicios %}
@@ -49,63 +48,51 @@
       {% endfor %}
     </select>
   </div>
+</div>
 
-  <!-- Etapa 2 -->
-  <div id="etapa2" class="hidden">
-    <h2 class="text-lg font-semibold mb-2 text-blue-600">Selecciona la modalidad</h2>
-    <select id="modalidad" class="w-full border rounded p-2">
-      <option value="">-- Selecciona una modalidad --</option>
+<div class="bg-white p-4 rounded shadow mb-6">
+  <div class="mb-4">
+    <label for="modalidad" class="block font-medium">Modalidad:</label>
+    <select id="modalidad" class="w-full border rounded p-2" required>
+      <option value="">Seleccione una modalidad</option>
+     {% for modalidad in modalidades %}
+
+<option value="{{ modalidad.id }}">{{ modalidad.nombre }}</option> {% endfor %}
     </select>
   </div>
-</section>
+</div>
 
-<!-- Etapa 3 -->
-<section id="tercera-etapa" class="hidden mt-8 w-full px-4">
-  <h2 class="text-xl font-bold text-blue-700 text-center mb-4">Doctores Disponibles</h2>
-  
-  <div class="bg-white p-4 shadow-lg rounded-lg w-full overflow-x-auto">
-    <table class="min-w-full text-sm text-left border border-gray-300">
-      <thead class="bg-blue-100 text-gray-700">
-        <tr>
-          <th class="px-4 py-3 border">Doctor</th>
-          <th class="px-4 py-3 border">Especialidad</th>
-          <th class="px-4 py-3 border">Día</th>
-          <th class="px-4 py-3 border">Hora</th>
-          <th class="px-4 py-3 border">Sede</th>
-          <th class="px-4 py-3 border">Acción</th>
-        </tr>
-      </thead>
-      <tbody id="tabla-doctores" class="bg-white">
-        <tr>
-          <td colspan="6" class="text-center py-4">Selecciona servicio y modalidad para ver opciones</td>
-        </tr>
-      </tbody>
-    </table>
+
+
+  <!-- Tabla doctores + horarios -->
+  <div id="tabla-contenedor" class="hidden">
+    <h2 class="text-xl font-bold text-center text-green-700 mb-4">Doctores y Horarios Disponibles</h2>
+
+    <div class="bg-white p-4 rounded shadow overflow-x-auto">
+      <table class="w-full text-sm text-left border border-gray-300">
+        <thead class="bg-blue-100">
+          <tr>
+            <th class="px-3 py-2 border">Doctor</th>
+            <th class="px-3 py-2 border">Servicio</th>
+            <th class="px-3 py-2 border">Día</th>
+            <th class="px-3 py-2 border">Fecha</th>
+            <th class="px-3 py-2 border">Hora Inicio</th>
+            <th class="px-3 py-2 border">Hora Fin</th>
+            <th class="px-3 py-2 border">Sede</th>
+            <th class="px-3 py-2 border">Modalidad</th>
+            <th class="px-3 py-2 border">Acción</th>
+          </tr>
+        </thead>
+        <tbody id="tabla-doctores" class="bg-white">
+          <tr>
+            <td colspan="9" class="text-center py-4">Selecciona servicio para ver horarios</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-</section>
 
-
-<!-- Horarios -->
-<section id="horarios-disponibles" class="hidden mt-8 w-full px-4">
-  <h2 class="text-xl font-bold text-green-700 text-center mb-4">Horarios Disponibles</h2>
-  <div class="bg-white p-4 shadow-lg rounded-lg max-w-7xl overflow-x-auto">
-    <table class="w-full text-sm text-left border border-gray-300">
-      <thead class="bg-blue-100 text-gray-700">
-        <tr>
-          <th class="px-3 py-2 border">Fecha</th>
-          <th class="px-3 py-2 border">Hora Inicio</th>
-          <th class="px-3 py-2 border">Hora Fin</th>
-          <th class="px-3 py-2 border">Acción</th>
-        </tr>
-      </thead>
-      <tbody id="tabla-horarios" class="bg-white">
-        <tr>
-          <td colspan="4" class="text-center py-4">Selecciona un doctor para ver los horarios disponibles</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</section>
+</div>
 
 <script src="{{ url_for('static', filename='agendar.js') }}"></script>
 </body>
