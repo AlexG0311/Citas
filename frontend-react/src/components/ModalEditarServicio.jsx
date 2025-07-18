@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import React from "react";
 
-export default function ModalEditarServicio({ isOpen, onClose, onSubmit, datosIniciales }) {
-  const [formData, setFormData] = useState({
+
+export default function ModalEditarServicio({ isOpen, onClose, datosIniciales, onSubmit }) {
+  const [formData, setFormData] = useState({    
     id: '',
     nombre: '',
-    dur: '',
-    date: new Date().toISOString().slice(0, 16),
+    duracion: '',
+    fecha: new Date().toISOString().slice(0, 16),
     id_estado: ''
   });
 
@@ -16,9 +18,9 @@ export default function ModalEditarServicio({ isOpen, onClose, onSubmit, datosIn
     if (datosIniciales) {
       setFormData({
         id: datosIniciales.id ?? '',
-        nombre: datosIniciales.name ?? '',
-        dur: datosIniciales.dur ?? '',
-        date: datosIniciales.date?.slice(0, 16) ?? new Date().toISOString().slice(0, 16),
+        nombre: datosIniciales.nombre ?? '',
+        duracion: datosIniciales.duracion ?? '',
+        fecha: datosIniciales.fecha?.slice(0, 16) ?? new Date().toISOString().slice(0, 16),
         id_estado: datosIniciales.id_estado ?? ''
       });
     }
@@ -85,8 +87,8 @@ export default function ModalEditarServicio({ isOpen, onClose, onSubmit, datosIn
           <label className="block text-sm font-medium">Duración (min)</label>
           <input
             type="number"
-            name="dur" // ← Corregido
-            value={formData.dur}
+            name="duracion" // ← Corregido
+            value={formData.duracion}
             onChange={handleChange}
             className="w-full border border-gray-300 rounded px-3 py-2"
             required
@@ -97,8 +99,8 @@ export default function ModalEditarServicio({ isOpen, onClose, onSubmit, datosIn
           <label className="block text-sm font-medium">Fecha</label>
           <input
             type="datetime-local"
-            name="date"
-            value={formData.date}
+            name="fecha"
+            value={formData.fecha}
             onChange={handleChange}
             className="w-full border border-gray-300 rounded px-3 py-2"
             required
@@ -114,7 +116,7 @@ export default function ModalEditarServicio({ isOpen, onClose, onSubmit, datosIn
             className="w-full border border-gray-300 rounded px-3 py-2"
             required
           >
-            <option value="">Seleccione un estado</option>
+           
             {estados.map((estado) => (
               <option key={estado.id} value={estado.id}>
                 {estado.nombre_estado}

@@ -4,13 +4,15 @@ import { LuFolder, LuSquareCheck, LuUser } from "react-icons/lu";
 import * as config_tabla_citas from '../config/config_tabla_citas';
 import Tabla from '../components/Tabla';
 import Navbar from '../components/Navbar';
-
+import ModalEditarCita from '../components/ModalEditarCita';
 
 const url = "http://localhost:5000/citas";
 
 function Citas() {
   const [documento, setDocumento] = useState('');
   const [servicios, setServicios] = useState([]);
+  const [datosAEditar, setDatosAEditar] = useState(null);
+  const [showModalEditar, setShowModalEditar] = useState(false);
   const [modalidades, setModalidades] = useState([]);
   const [profesionales, setProfesionales] = useState([]);
   const [horarios, setHorarios] = useState([]);
@@ -93,6 +95,15 @@ function Citas() {
       alert(error.message);
     }
   };
+
+ const eliminarCita = async (id) => {
+    const res = await fetch(`${url}/${id}`, {
+      method: 'DELETE'
+    });
+    if (!res.ok) throw new Error('Error al eliminar profesional');
+  };
+
+
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -230,6 +241,12 @@ function Citas() {
               </div>
             </Tabs.Content>
 
+            <ModalEditarCita
+            isOpen={showModalEditar}
+            OnClose={() => setShowModalEditar(false)}
+            datosIniciales={datosAEditar}
+            />
+
             <Tabs.Content value="projects">
               <Tabla
                 conf_tabla={config_tabla_citas}
@@ -239,9 +256,9 @@ function Citas() {
                   setDatosAEditar(fila);
                   setShowModalEditar(true);
                 }}
-                onDelete={(fila) => {
+                 onDelete={(fila) => {
                   if (confirm(`¿Estás seguro de eliminar a ${fila.name} ${fila.apellido}?`)) {
-                    eliminarProfesional(fila.id).then(() => window.location.reload());
+                    eliminarCita(fila.id).then(() => window.location.reload());
                   }
                 }}
               />           

@@ -1,4 +1,4 @@
-export const columns = [
+  export const columns = [
   { name: "ID", uid: "id", sortable: true },
   { name: "FECHA", uid: "fecha", sortable: true },
   { name: "ESTDO", uid: "estado", sortable: true },

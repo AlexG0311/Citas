@@ -16,7 +16,7 @@ function CrearServicio() {
   const handleAddServicio = async (servicioData) => {
     try {
       const res = await fetch(url, {
-        method: "POST",
+        method: "POST",       
         headers: {
           "Content-Type": "application/json"
         },
@@ -109,15 +109,16 @@ const editarServicio = async (data) => {
                 <ModalEditarServicio
                  isOpen={showModalEditar}
                  onClose={() => setShowModalEditar(false)}
+                 datosIniciales={datosAEditar}     //{datos traidos de la tabla}
                  onSubmit={editarServicio}
-                 datosIniciales={datosAEditar}
+               
                />             
 
               <Tabla
                 conf_tabla={conf_tabla_servicios}
                 url_api={url}
                 onEdit={(fila) => {
-                  console.log('Datos de fila al editar:', fila);
+                  console.log('Datos de fila al editar:', fila);  //{ conseguimos los datos de la tabla }
                   setDatosAEditar(fila);
                   setShowModalEditar(true);
                 }}

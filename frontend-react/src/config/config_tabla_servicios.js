@@ -1,14 +1,14 @@
 export const columns = [
   { name: "ID", uid: "id", sortable: true },
-  { name: "NAME", uid: "name", sortable: true },
-  { name: "DURACION", uid: "dur", sortable: true },
-  { name: "FECHA", uid: "date", sortable: true },
+  { name: "NAME", uid: "nombre", sortable: true },
+  { name: "DURACION", uid: "duracion", sortable: true },
+  { name: "FECHA", uid: "fecha", sortable: true },
   { name: "STATUS", uid: "status", sortable: true },
   { name: "ACTIONS", uid: "actions" },
 ];
 
 
-export const initial_colum = ["name","dur", "date", "status", "actions"];
+export const initial_colum = ["nombre","duracion", "fecha", "status", "actions"];
 
 export const statusOptions = [
   { name: "Activo", uid: "Activo" },
@@ -16,11 +16,11 @@ export const statusOptions = [
 ];
 
 
-export const camposAdaptar = {
+export const camposAdaptar = {     
   id: "id",
-  name: "nombre",
-  dur: "duracion",
-  date: "fecha",
+  nombre: "nombre",
+  duracion: "duracion",
+  fecha: "fecha",
   status: "estado_servicio",
 };
 
