@@ -7,7 +7,7 @@ function UserProfile() {
   const handleAction = async (key) => {
     if (key === "logout") {
       try {
-        const res = await fetch("http://localhost:5000/admin/logout", {
+        const res = await fetch("http://localhost:5000/logout", {
           method: "POST",
           credentials: "include", // ✅ Necesario para borrar cookie
         });

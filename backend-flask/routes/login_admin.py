@@ -87,7 +87,7 @@ def panel_admin():
 # ✅ Logout
 from flask_jwt_extended import unset_jwt_cookies
 
-@admin_bp.route("/admin/logout", methods=["POST"])
+@admin_bp.route("/logout", methods=["POST"])
 def logout_admin():
     response = make_response(jsonify({"mensaje": "Sesión cerrada"}))
     unset_jwt_cookies(response)

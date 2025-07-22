@@ -6,6 +6,7 @@ import { fetchServicios } from "@/services/fetchServicios";
 import BuscarProfesional from "../services/BuscarProfesional";
 import Horarios from "../services/Horarios";
 import agendar from "../services/agendar";
+import Navbar from "../components/Navbar";
 
 const AgendarCita = () => {
   const [servicios, setServicios] = useState([]);
@@ -71,45 +72,9 @@ if (!usuario) {
   return (
     <div className="bg-gray-100 font-sans min-h-screen">
       {/* NAVBAR */}
-      <nav className="w-full flex justify-between mb-6 bg-blue-500 p-4">
-        <img src="/static/logo.png" alt="Logo" className="h-10" />
-        <ul className="flex flex-wrap text-sm font-medium text-center text-white">
-          <li className="me-2">
-            <a
-              href="/cliente/perfil"
-              className="inline-block px-4 py-2 rounded-lg hover:text-gray-900 hover:bg-gray-100 w-40 h-10"
-            >
-              Inicio
-            </a>
-          </li>
-          <li>
-            <a
-              href="/cliente/agendar"
-              className="inline-block px-4 py-2 rounded-lg hover:text-gray-900 hover:bg-gray-100 w-40 h-10"
-            >
-              Agendar cita
-            </a>
-          </li>
-          <li>
-            <a
-              href="/cliente/mis_citas"
-              className="inline-block px-4 py-2 rounded-lg hover:text-gray-900 hover:bg-gray-100 w-40 h-10"
-            >
-              Mis Citas
-            </a>
-          </li>
-        </ul>
-        
-        <div className="flex items-center space-x-2">
-             <p className="text-sm font-semibold">{usuario.nombre}</p>
-          <img
-            src="/static/usuario.png"
-            alt="Usuario"
-            className="w-10 h-10 rounded-full border"
-          />
-          <a href="/logout" className="text-white hover:underline">Cerrar sesión</a>
-        </div>
-      </nav>
+     <Navbar
+     nombre = {user.nombre}/>
+     
 
       {/* CONTENIDO */}
       <div className="container mx-auto p-4">

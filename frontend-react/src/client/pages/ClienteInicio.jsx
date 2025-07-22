@@ -6,11 +6,31 @@ const ClienteInicio = () => {
   const navigate = useNavigate();
   const { user, isLoading, isAuthorized } = useAutorizarUser();
 
+  const handleAction = async () => {
+ 
+      try {
+        const res = await fetch("http://localhost:5000/logout", {
+          method: "POST",
+          credentials: "include", // ✅ Necesario para borrar cookie
+        });
+
+        if (res.ok) {
+          navigate("/cliente/login"); // 🔐 Redirige al login
+        } else {
+          console.error("Error al cerrar sesión");
+        }
+      } catch (error) {
+        console.error("Error de red al cerrar sesión", error);
+      }
+    
+  };
+
   useEffect(() => {
     if (!isLoading && !isAuthorized) {
       navigate("/cliente/login");
     }
   }, [isLoading, isAuthorized, navigate]);
+
 
   if (isLoading) {
     return <p className="text-center mt-10 text-gray-500">Cargando perfil...</p>;
@@ -29,7 +49,7 @@ const ClienteInicio = () => {
             <p className="text-sm font-semibold">{user.nombre}</p>
           </div>
           <img src="/static/usuario.png" alt="Usuario" className="w-10 h-10 rounded-full border" />
-          <a href="/logout" className="text-white hover:underline ml-2">Cerrar sesión</a>
+          <button className="text-white hover:underline ml-2 cursor-pointer" onClick={handleAction}>Cerrar sesión</button>
         </div>
       </nav>
 

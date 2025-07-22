@@ -9,6 +9,8 @@ const {isLoading, isAuthorized} = useAutorizarUser();
 const navigate = useNavigate();
 const {citas} = useCitas();
 
+const {user} = useAutorizarUser();
+
 useEffect(() => {
   if(!isLoading && !isAuthorized){
     navigate("/cliente/login")
@@ -52,7 +54,7 @@ return(
         </ul>
         
         <div className="flex items-center space-x-2">
-             <p className="text-sm font-semibold">usuario</p>
+             <p className="text-sm font-semibold">{user.nombre}</p>
           <img
             src="/static/usuario.png"
             alt="Usuario"
