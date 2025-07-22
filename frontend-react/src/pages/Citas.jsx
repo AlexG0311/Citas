@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Tabs } from "@chakra-ui/react";
-import { LuFolder, LuSquareCheck, LuUser } from "react-icons/lu";
+import { LuFolder, LuUser } from "react-icons/lu";
 import * as config_tabla_citas from '../config/config_tabla_citas';
 import Tabla from '../components/Tabla';
 import Navbar from '../components/Navbar';
@@ -46,6 +46,7 @@ function Citas() {
         setProfesionalSeleccionado('');
       });
   }, [servicioSeleccionado]);
+  
 
   const buscarHorarios = async () => {
     if (!servicioSeleccionado || !modalidadSeleccionada || !profesionalSeleccionado) return;
@@ -100,7 +101,7 @@ function Citas() {
     const res = await fetch(`${url}/${id}`, {
       method: 'DELETE'
     });
-    if (!res.ok) throw new Error('Error al eliminar profesional');
+    if (!res.ok) throw new Error('Error al eliminar Cita');
   };
 
 

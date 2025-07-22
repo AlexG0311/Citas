@@ -43,3 +43,22 @@ def create_cita():
 @citas_bp.route('/citas', methods=['GET'])
 def citas_listar():
     return jsonify([s.to_dict() for s in Cita.query.all()])
+
+
+
+@citas_bp.route('/citas/buscar', methods=['GET'])
+def buscar_citas_por_cedula():
+    cedula = request.args.get('cedula')
+
+    if not cedula:
+        return jsonify({"error": "Cédula no proporcionada"}), 400
+
+    cliente = Cliente.query.filter_by(cedula=cedula).first()
+
+    if not cliente:
+        return jsonify({"error": "Cliente no encontrado"}), 404
+
+    citas = Cita.query.filter_by(clientes_id=cliente.id).all()
+
+    return jsonify([cita.to_dict() for cita in citas]), 200
+

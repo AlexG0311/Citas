@@ -136,7 +136,7 @@ class Profesional(db.Model):
 
 
 
-# ✅ NUEVO MODELO: Cliente
+# ✅  MODELO: Cliente
 class Cliente(db.Model):
     __tablename__ = 'clientes'
 

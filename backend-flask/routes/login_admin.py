@@ -2,11 +2,9 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 from flask import Blueprint, request, jsonify, make_response
-from models import Admin
 from flask_jwt_extended import create_access_token, set_access_cookies
-from flask import Blueprint, request, jsonify, make_response
 from models import Admin
-from flask_jwt_extended import create_access_token, set_access_cookies
+
 
 admin_bp = Blueprint("admin", __name__)
 

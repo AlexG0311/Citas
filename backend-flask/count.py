@@ -7,7 +7,8 @@ with app.app_context():
     nuevo_admin = Admin(
         nombre='Admin Principal',
         email='admin@gmail.com',
-        contrasena_hash=generate_password_hash('admin123')  # Cambia esta contraseña si deseas
+        contrasena_hash=generate_password_hash('admin123')  
+        
     )
     db.session.add(nuevo_admin)
     db.session.commit()

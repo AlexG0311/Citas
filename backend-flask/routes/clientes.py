@@ -9,9 +9,6 @@ def get_clientes():
     clientes = Cliente.query.all()
     return jsonify([cliente.to_dict() for cliente in clientes])
 
-
-
-
 @clientes_bp.route("/clientes/<int:id>", methods=["GET"])
 def get_cliente(id):
     cliente = Cliente.query.get_or_404(id)
