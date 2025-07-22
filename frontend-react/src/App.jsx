@@ -12,6 +12,7 @@ import Sedes from './pages/Sedes'
 import LoginCliente from './client/pages/LoginCliente'
 import ClienteInicio from './client/pages/ClienteInicio'
 import LoginProfesional from './profesional/pages/LoginProfesional'
+import InicioProfesional from './profesional/pages/InicioProfesional'
 import AgendarCita from './client/pages/AgendarCita'
 import CitasCliente from './client/pages/CitasCliente'
 import './App.css';
@@ -24,6 +25,7 @@ function App() {
       <Route path="/cliente/login" element={<LoginCliente/>} />
       <Route path="/cliente/perfil" element={<ClienteInicio/>} />
       <Route path="/Login/profesional" element={<LoginProfesional/>} />
+      <Route path="/Login/InicioProfesional" element={<InicioProfesional/>} />
       <Route path="/cliente/agendar" element={<AgendarCita/>} />
       <Route path="/cliente/mis_citas" element={<CitasCliente/>} />
       <Route path="/Login" element={<Login/>} />

@@ -3,6 +3,7 @@ from models import  Profesional
 from db import db
 from flask import Blueprint, request, jsonify, make_response
 from flask_jwt_extended import create_access_token, set_access_cookies
+from werkzeug.security import generate_password_hash
 
 profesional_bp = Blueprint('profesional_bp', __name__)
 
@@ -20,7 +21,7 @@ def create_profesional():
         cedula=data['cedula'],
         telefono=data['telefono'],
         especialidad=data['especialidad'],
-        contraseña=data['contraseña'],
+        contraseña=generate_password_hash(data['contraseña']),
         estado=data['estado'],
         sede_id=data['sede_id']
     )
@@ -57,66 +58,44 @@ def eliminar_profesional(id):
 
 
 @profesional_bp.route("/login/profesional", methods=["POST"])
-def login_admin():
-    print(f"Request headers: {request.headers}")
-    print(f"Request data: {request.get_data()}")
-    print(f"Request JSON: {request.get_json()}")
-    
+def login_profesional():
     try:
         if not request.is_json:
-            print("❌ Error: No es JSON")
             return jsonify({"error": "Content-Type debe ser application/json"}), 400
         
         data = request.get_json()
-        print(f"✅ Datos recibidos: {data}")
-        
+
         if not data:
-            print("❌ Error: No hay datos")
             return jsonify({"error": "No se recibieron datos"}), 400
             
-        email = data.get("email")
-        contrasena = data.get("contrasena")
-        print(f"✅ Email: {email}")
-        print(f"✅ Contraseña: {contrasena}")
+        correo =  data["correo"]
+        contraseña = data["contraseña"]
 
-        if not email or not contrasena:
-            print("❌ Error: Faltan email o contraseña")
-            return jsonify({"error": "Email y contraseña son requeridos"}), 400
+        if not correo or not contraseña:
+            return jsonify({"error": "Correo y contraseña son requeridos"}), 400
 
-        # 🔍 DEBUGGING DE BASE DE DATOS
-        print(f"🔍 Buscando admin con email: {email}")
-        profesional = Profesional.query.filter_by(email=email).first()
-        print(f"🔍 Admin encontrado: {profesional}")
+        profesional = Profesional.query.filter_by(correo=correo).first()
         
         if not profesional:
-            print("❌ Error: Admin no encontrado")
-            return jsonify({"error": "Credenciales incorrectas"}), 401
-            
-        # 🔍 DEBUGGING DE CONTRASEÑA
-        print(f"🔍 Verificando contraseña...")
-        password_check = profesional.verificar_contrasena(contrasena)
-        print(f"🔍 Contraseña válida: {password_check}")
-        
-        if not password_check:
-            print("❌ Error: Contraseña incorrecta")
             return jsonify({"error": "Credenciales incorrectas"}), 401
 
-        print("✅ Creando token JWT...")
-        access_token = create_access_token(identity=profesional.id)
-        print(f"✅ Token creado: {access_token[:50]}...")
+        if not profesional.verificar_contrasena(contraseña):
+            return jsonify({"error": "Credenciales incorrectas"}), 401
+
+        access_token = create_access_token(identity=str(profesional.id))
+
+# AQUI PUEDES TRAER LOS DATOS QUE QUIERAS DEL PROFESIONAL 
 
         response = make_response(jsonify({
             "mensaje": "Inicio de sesión exitoso",
-            "profesional_id": profesional.id
+            "profesional_id": profesional.id,
+            "nombre": profesional.nombre
         }))
         set_access_cookies(response, access_token)
-        print("✅ Login exitoso")
 
         return response, 200
         
     except Exception as e:
-        print(f"💥 ERROR EXCEPCIÓN: {str(e)}")
-        print(f"💥 TIPO ERROR: {type(e)}")
         import traceback
         traceback.print_exc()
         return jsonify({"error": "Error interno del servidor"}), 500

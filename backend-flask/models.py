@@ -117,6 +117,9 @@ class Profesional(db.Model):
         back_populates='profesionales'
     )
 
+    def verificar_contrasena(self, password):
+        return check_password_hash(self.contraseña, password)
+
     def to_dict(self):
         return {
             "id": self.id,

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 export default function LoginProfesional() {
 
 const [correo, setCorreo] = useState('');
-const [contrasena, setContrasena] = useState('');
+const [contraseña, setContrasena] = useState('');
 const navigate = useNavigate();
 
 const handleSubmit = async (e) => {
@@ -16,7 +16,7 @@ const res = await fetch ("http://localhost:5000/login/profesional",
         'Content-Type': 'application/json'
     },
     credentials: "include",
-    body: JSON.stringify(correo, contrasena)
+    body: JSON.stringify({correo, contraseña})
   }
 );
 const data = await res.json();
@@ -26,7 +26,7 @@ const data = await res.json();
       }
 
       // Login exitoso
-      navigate('/Inicio');
+      navigate('/Login/InicioProfesional');
       
     } catch (err) {
       console.error('Error:', err);
@@ -62,7 +62,7 @@ return(
       type="password" 
       name="contraseña" 
       id="contraseña" 
-      value={contrasena}
+      value={contraseña}
       onChange={(e) => setContrasena(e.target.value)}
       required 
       className="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-400 focus:outline-none"/>
