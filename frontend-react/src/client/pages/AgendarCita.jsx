@@ -100,19 +100,19 @@ if (!usuario) {
           </div>
         </div>
 
-                                                                        <div className="bg-white p-4 rounded shadow mb-6">
-                                                                          <label className="block text-sm font-medium">Profesional</label>
-                                                                              <select
-                                                                              value={profesionalSeleccionado}
-                                                                              onChange={e => setProfesionalSeleccionado(e.target.value)}
-                                                                              className="border px-3 py-2 rounded w-full mt-1"
-                                                                              >
-                                                                            <option value="">Seleccione un profesional</option>
-                                                                            {profesionales.map(p => (
-                                                                            <option key={p.id} value={p.id}>{p.nombre} {p.apellido}</option>
+    <div className="bg-white p-4 rounded shadow mb-6">
+       <label className="block text-sm font-medium">Profesional</label>
+           <select
+           value={profesionalSeleccionado}
+           onChange={e => setProfesionalSeleccionado(e.target.value)}
+           className="border px-3 py-2 rounded w-full mt-1"
+           >
+         <option value="">Seleccione un profesional</option>
+         {profesionales.map(p => (
+         <option key={p.id} value={p.id}>{p.nombre} {p.apellido}</option>
                                                                             ))}
-                                                                            </select>
-                                                                          </div>
+     </select>
+       </div>
 
         {/* Formulario Modalidad */}
         <div className="bg-white p-4 rounded shadow mb-6">
