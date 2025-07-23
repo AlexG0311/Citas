@@ -8,7 +8,7 @@ citas_bp = Blueprint("citas", __name__)
 
 @citas_bp.route("/citas", methods=["POST"])
 def create_cita():
-    data = request.json
+    data = request.json 
 
     cita = Cita(
         fecha=datetime.strptime(data["fecha"], "%Y-%m-%d").date(),

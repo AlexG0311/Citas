@@ -28,12 +28,12 @@ CORS(app,
 app.config['JWT_SECRET_KEY'] = 'tu-clave-secreta-muy-segura'
 app.config['JWT_TOKEN_LOCATION'] = ['cookies']
 app.config['JWT_ACCESS_COOKIE_PATH'] = '/'
-app.config['JWT_COOKIE_SECURE'] = False  # True en producción (HTTPS)
+app.config['JWT_COOKIE_SECURE'] = False  
 app.config['JWT_COOKIE_HTTPONLY'] = True
-app.config['JWT_COOKIE_SAMESITE'] = 'Lax'  # Lax permite navegación cruzada controlada
+app.config['JWT_COOKIE_SAMESITE'] = 'Lax'  
 app.config['JWT_ACCESS_COOKIE_NAME'] = 'access_token'
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
-app.config['JWT_COOKIE_CSRF_PROTECT'] = False  # Solo para desarrollo
+app.config['JWT_COOKIE_CSRF_PROTECT'] = False  
 
 
 # ✅ Único decorador JWT
@@ -74,6 +74,13 @@ with app.app_context():
     except OperationalError as e:
         print("❌ Error al conectar a la base de datos:")
         print(e)
+        
+@app.route('/')
+def index():
+    return "✅ Bienvenido al backend de la API"
+
+  
 
 if __name__ == "__main__":
     app.run(debug=True)
+

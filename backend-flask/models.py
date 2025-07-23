@@ -1,7 +1,6 @@
 from db import db
 from datetime import datetime, time, date
 
-# 👇 Mueve esto arriba
 servicios_profesionales = db.Table(
     'servicios_has_profesionales',
     db.Column('Servicios_id', db.Integer, db.ForeignKey('servicios.id'), primary_key=True),
@@ -35,7 +34,6 @@ class Servicio(db.Model):
 
     citas = db.relationship('Cita', backref='servicio', lazy=True)
 
-    # ✅ Relación muchos a muchos
     profesionales = db.relationship(
         'Profesional',
         secondary=servicios_profesionales,
@@ -110,7 +108,6 @@ class Profesional(db.Model):
 
     citas = db.relationship('Cita', backref='profesional', lazy=True, passive_deletes=True)
 
-    # ✅ Relación muchos a muchos
     servicios = db.relationship(
         'Servicio',
         secondary=servicios_profesionales,

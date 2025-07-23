@@ -17,6 +17,8 @@ import AgendarCita from './client/pages/AgendarCita'
 import CitasCliente from './client/pages/CitasCliente'
 import './App.css';
 import Estadisticas from './pages/Estadisticas'
+import CitasProfesional from './profesional/pages/CitasProfesional';
+
 
 function App() {
   return (
@@ -26,6 +28,7 @@ function App() {
       <Route path="/cliente/perfil" element={<ClienteInicio/>} />
       <Route path="/Login/profesional" element={<LoginProfesional/>} />
       <Route path="/Login/InicioProfesional" element={<InicioProfesional/>} />
+      <Route path="/profesional/citas" element={<CitasProfesional/>} />
       <Route path="/cliente/agendar" element={<AgendarCita/>} />
       <Route path="/cliente/mis_citas" element={<CitasCliente/>} />
       <Route path="/Login" element={<Login/>} />

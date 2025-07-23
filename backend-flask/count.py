@@ -1,6 +1,6 @@
 from models import Admin
 from db import db
-from App import app  # Asegúrate de importar tu app Flask correctamente
+from App import app  
 from werkzeug.security import generate_password_hash
 
 with app.app_context():
