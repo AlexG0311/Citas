@@ -1,8 +1,8 @@
 from db import app, db
+from flask_cors import CORS
 from routes.servicios import servicios_bp
 from routes.estados import estados_bp
 from routes.estado_profesional import estado_bp
-from routes.profesionales import profesional_bp
 from routes.horario import horario_bp
 from routes.modalidad import modalidad_bp
 from routes.login_admin import admin_bp
@@ -12,11 +12,19 @@ from routes.login_cliente import login_cliente_bp
 from routes.cliente_perfil import cliente_perfil_bp;
 from routes.clientes import clientes_bp
 from routes.citas import citas_bp
+from routes.login_profesional import profesional_bp
+from routes.profesional_routes import citas_profesional_bp
+from routes.profesional import profesional
+
+
+
+
 from routes.servicio_profesional import servicio_profesional_bp
 from flask_jwt_extended import JWTManager
 from sqlalchemy import text
 from datetime import timedelta
 from flask_cors import CORS
+
 from sqlalchemy.exc import OperationalError
 
 # ✅ Configurar CORS correctamente (una sola vez)
@@ -33,7 +41,7 @@ app.config['JWT_COOKIE_HTTPONLY'] = True
 app.config['JWT_COOKIE_SAMESITE'] = 'Lax'  
 app.config['JWT_ACCESS_COOKIE_NAME'] = 'access_token'
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
-app.config['JWT_COOKIE_CSRF_PROTECT'] = False  
+app.config['JWT_COOKIE_CSRF_PROTECT'] = False  # Solo para desarrollo
 
 
 # ✅ Único decorador JWT
@@ -53,7 +61,6 @@ app.register_blueprint(horario_bp)
 app.register_blueprint(modalidad_bp)
 app.register_blueprint(estado_bp)
 app.register_blueprint(sede_bp)
-app.register_blueprint(profesional_bp)
 app.register_blueprint(estado_servicio_bp)
 app.register_blueprint(servicio_profesional_bp)
 app.register_blueprint(clientes_bp)
@@ -63,6 +70,15 @@ app.register_blueprint(citas_bp)
 
 app.register_blueprint(login_cliente_bp)
 app.register_blueprint(cliente_perfil_bp)
+
+# ✅ RUTAS DEL DOCtor
+app.register_blueprint(profesional_bp)
+app.register_blueprint(citas_profesional_bp, url_prefix="/profesional")
+app.register_blueprint(profesional)
+
+
+
+
 
 
 # ✅ Verificar conexión y crear tablas
@@ -74,12 +90,7 @@ with app.app_context():
     except OperationalError as e:
         print("❌ Error al conectar a la base de datos:")
         print(e)
-        
-@app.route('/')
-def index():
-    return "✅ Bienvenido al backend de la API"
 
-  
 
 if __name__ == "__main__":
     app.run(debug=True)

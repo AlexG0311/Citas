@@ -18,7 +18,7 @@ export const statusOptions = [
 ];
 
 
-export const initial_colum = ["name","apellido", "correo","cedula", "telefono", "especialidad","contraseña", "sede", "status", "actions"];
+export const initial_colum = ["name","apellido", "correo","cedula", "telefono", "especialidad", "sede", "status", "actions"];
 
 
 

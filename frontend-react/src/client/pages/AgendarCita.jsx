@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import useAutorizarUser from "@/hooks/useAutorizarUser";
-import fetchModalidad from "@/services/fetchModalidad";
-import { fetchServicios } from "@/services/fetchServicios";
+import fetchModalidad from "@/admin/services/fetchModalidad";
+import { fetchServicios } from "@/admin/services/fetchServicios";
 import BuscarProfesional from "../services/BuscarProfesional";
 import Horarios from "../services/Horarios";
 import agendar from "../services/agendar";

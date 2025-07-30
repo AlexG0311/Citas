@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export default function useAutorizarProfesional() {
   const [user, setUser] = useState({});
@@ -6,27 +6,25 @@ export default function useAutorizarProfesional() {
   const [isAuthorized, setIsAuthorized] = useState(false);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-const res = await fetch ("http://localhost:5000/login/profesional", {
-          credentials: "include",
-        });
-        if (res.ok) {
-          const data = await res.json();
-          setUser(data);
-          setIsAuthorized(true);
-        } else {
-          setIsAuthorized(false);
-        }
-      } catch (err) {
-        console.error(err);
+    fetch("http://localhost:5000/profesional/perfil", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("No autorizado");
+        return res.json();
+      })
+      .then(data => {
+        setUser(data);
+        setIsAuthorized(true);
+      })
+      .catch(err => {
+        console.error("Error al obtener perfil profesional:", err);
         setIsAuthorized(false);
-      } finally {
+      })
+      .finally(() => {
         setIsLoading(false);
-      }
-    };
-
-    fetchUser();
+      });
   }, []);
 
   return { user, isLoading, isAuthorized };

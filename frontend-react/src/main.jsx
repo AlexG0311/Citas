@@ -1,4 +1,4 @@
-import { Provider } from "@/components/ui/provider"
+import { Provider } from "@/admin/components/ui/provider"
 import './index.css';
 import App from './App.jsx';
 import { createRoot } from 'react-dom/client';

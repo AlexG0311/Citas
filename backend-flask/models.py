@@ -115,7 +115,7 @@ class Profesional(db.Model):
     )
 
     def verificar_contrasena(self, password):
-        return check_password_hash(self.contraseña, password)
+        return self.contraseña == password
 
     def to_dict(self):
         return {

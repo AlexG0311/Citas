@@ -1,6 +1,7 @@
 
 export default function Navbar({nombre}){
-return( 
+
+  return( 
 
 <nav className="w-full flex justify-between mb-6 bg-blue-500 p-4">
         <img src="/static/logo.png" alt="Logo" className="h-10" />
@@ -38,7 +39,7 @@ return(
             alt="Usuario"
             className="w-10 h-10 rounded-full border"
           />
-          <a href="/logout" className="text-white hover:underline">Cerrar sesión</a>
+          <a href="/" className="text-white hover:underline">Cerrar sesión</a>
         </div>
       </nav>
       

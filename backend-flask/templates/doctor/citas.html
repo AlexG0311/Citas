@@ -1,189 +1,189 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Citas del Profesional</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-</head>
+  <!DOCTYPE html>
+  <html lang="es">
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Citas del Profesional</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
 
-<body class="bg-gray-100 font-sans">
+  <body class="bg-gray-100 font-sans">
 
-<div class="max-w-6xl mx-auto mt-8 bg-white shadow rounded p-6">
-  <h2 class="text-2xl font-bold mb-4 text-blue-700 text-center">Mis Citas</h2>
+  <div class="max-w-6xl mx-auto mt-8 bg-white shadow rounded p-6">
+    <h2 class="text-2xl font-bold mb-4 text-blue-700 text-center">Mis Citas</h2>
 
-  <!-- Tabs -->
-  <div class="flex justify-center my-4">
-    <button id="tab-hoy" onclick="mostrarTab('hoy')" class="px-4 py-2 bg-pink-600 text-white rounded-l">Hoy</button>
-    <button id="tab-historico" onclick="mostrarTab('historico')" class="px-4 py-2 bg-white text-pink-600 border rounded-r">Citas</button>
+    <!-- Tabs -->
+    <div class="flex justify-center my-4">
+      <button id="tab-hoy" onclick="mostrarTab('hoy')" class="px-4 py-2 bg-pink-600 text-white rounded-l">Hoy</button>
+      <button id="tab-historico" onclick="mostrarTab('historico')" class="px-4 py-2 bg-white text-pink-600 border rounded-r">Citas</button>
+    </div>
+
+    <!-- Citas Hoy -->
+    <div id="contenido-hoy">
+      <table class="w-full table-auto border text-sm">
+        <thead class="bg-blue-100">
+          <tr>
+            <th class="border px-2 py-1">Paciente</th>
+            <th class="border px-2 py-1">CC</th>
+            <th class="border px-2 py-1">Servicio</th>
+            <th class="border px-2 py-1">Fecha</th>
+            <th class="border px-2 py-1">Hora Inicio</th>
+            <th class="border px-2 py-1">Hora Fin</th>
+            <th class="border px-2 py-1">Sede</th>
+            <th class="border px-2 py-1">Estado</th>
+            <th class="border px-2 py-1">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for cita in citas_hoy %}
+          <tr class="text-center" id="cita-{{ cita.id }}">
+            <td class="border px-2 py-1">{{ cita.paciente }}</td>
+            <td class="border px-2 py-1">{{ cita.cedula }}</td>
+            <td class="border px-2 py-1">{{ cita.servicio }}</td>
+            <td class="border px-2 py-1">{{ cita.fecha }}</td>
+            <td class="border px-2 py-1">{{ cita.hora_inicio }}</td>
+            <td class="border px-2 py-1">{{ cita.hora_fin }}</td>
+            <td class="border px-2 py-1">{{ cita.sede }}</td>
+            <td class="border px-2 py-1">
+              {% if cita.estado == 1 %}
+                Activa
+              {% else %}
+                Finalizada
+              {% endif %}
+            </td>
+            <td class="border px-2 py-1">
+              <button onclick="verDetalles('{{ cita.paciente }}', '{{ cita.cedula }}', '{{ cita.servicio }}', '{{ cita.fecha }}', '{{ cita.hora_inicio }}', '{{ cita.sede }}')"
+                      class="bg-blue-500 text-white px-2 py-1 rounded text-xs">
+                Ver Detalles
+              </button>
+              {% if cita.estado == 1 %}
+              <button onclick="finalizarCita({{ cita.id }})"
+                      class="bg-green-500 text-white px-2 py-1 rounded text-xs">
+                Finalizar
+              </button>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Citas Históricas -->
+    <div id="contenido-historico" class="hidden">
+      <table class="w-full table-auto border text-sm">
+        <thead class="bg-blue-100">
+          <tr>
+            <th class="border px-2 py-1">Paciente</th>
+            <th class="border px-2 py-1">CC</th>
+            <th class="border px-2 py-1">Servicio</th>
+            <th class="border px-2 py-1">Fecha</th>
+            <th class="border px-2 py-1">Hora Inicio</th>
+            <th class="border px-2 py-1">Hora Fin</th>
+            <th class="border px-2 py-1">Sede</th>
+            <th class="border px-2 py-1">Estado</th>
+            <th class="border px-2 py-1">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for cita in citas_historico %}
+          <tr class="text-center" id="cita-{{ cita.id }}">
+            <td class="border px-2 py-1">{{ cita.paciente }}</td>
+            <td class="border px-2 py-1">{{ cita.cedula }}</td>
+            <td class="border px-2 py-1">{{ cita.servicio }}</td>
+            <td class="border px-2 py-1">{{ cita.fecha }}</td>
+            <td class="border px-2 py-1">{{ cita.hora_inicio }}</td>
+            <td class="border px-2 py-1">{{ cita.hora_fin }}</td>
+            <td class="border px-2 py-1">{{ cita.sede }}</td>
+            <td class="border px-2 py-1">
+              {% if cita.estado == 1 %}
+                Activa
+              {% else %}
+                Finalizada
+              {% endif %}
+            </td>
+            <td class="border px-2 py-1">
+              <button onclick="verDetalles('{{ cita.paciente }}', '{{ cita.cedula }}', '{{ cita.servicio }}', '{{ cita.fecha }}', '{{ cita.hora_inicio }}', '{{ cita.sede }}')"
+                      class="bg-blue-500 text-white px-2 py-1 rounded text-xs">
+                Ver Detalles
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
   </div>
 
-  <!-- Citas Hoy -->
-  <div id="contenido-hoy">
-    <table class="w-full table-auto border text-sm">
-      <thead class="bg-blue-100">
-        <tr>
-          <th class="border px-2 py-1">Paciente</th>
-          <th class="border px-2 py-1">CC</th>
-          <th class="border px-2 py-1">Servicio</th>
-          <th class="border px-2 py-1">Fecha</th>
-          <th class="border px-2 py-1">Hora Inicio</th>
-          <th class="border px-2 py-1">Hora Fin</th>
-          <th class="border px-2 py-1">Sede</th>
-          <th class="border px-2 py-1">Estado</th>
-          <th class="border px-2 py-1">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for cita in citas_hoy %}
-        <tr class="text-center" id="cita-{{ cita.id }}">
-          <td class="border px-2 py-1">{{ cita.paciente }}</td>
-          <td class="border px-2 py-1">{{ cita.cedula }}</td>
-          <td class="border px-2 py-1">{{ cita.servicio }}</td>
-          <td class="border px-2 py-1">{{ cita.fecha }}</td>
-          <td class="border px-2 py-1">{{ cita.hora_inicio }}</td>
-          <td class="border px-2 py-1">{{ cita.hora_fin }}</td>
-          <td class="border px-2 py-1">{{ cita.sede }}</td>
-          <td class="border px-2 py-1">
-            {% if cita.estado == 1 %}
-              Activa
-            {% else %}
-              Finalizada
-            {% endif %}
-          </td>
-          <td class="border px-2 py-1">
-            <button onclick="verDetalles('{{ cita.paciente }}', '{{ cita.cedula }}', '{{ cita.servicio }}', '{{ cita.fecha }}', '{{ cita.hora_inicio }}', '{{ cita.sede }}')"
-                    class="bg-blue-500 text-white px-2 py-1 rounded text-xs">
-              Ver Detalles
-            </button>
-            {% if cita.estado == 1 %}
-            <button onclick="finalizarCita({{ cita.id }})"
-                    class="bg-green-500 text-white px-2 py-1 rounded text-xs">
-              Finalizar
-            </button>
-            {% endif %}
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <!-- Modal Detalles -->
+  <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white p-6 rounded shadow w-96">
+      <h3 class="text-xl font-bold mb-2">Detalles de la cita</h3>
+      <p id="detalle-paciente"></p>
+      <p id="detalle-cedula"></p>
+      <p id="detalle-servicio"></p>
+      <p id="detalle-fecha"></p>
+      <p id="detalle-hora"></p>
+      <p id="detalle-sede"></p>
+      <button onclick="cerrarModal()" class="bg-red-500 text-white px-4 py-2 rounded mt-4">Cerrar</button>
+    </div>
   </div>
 
-  <!-- Citas Históricas -->
-  <div id="contenido-historico" class="hidden">
-    <table class="w-full table-auto border text-sm">
-      <thead class="bg-blue-100">
-        <tr>
-          <th class="border px-2 py-1">Paciente</th>
-          <th class="border px-2 py-1">CC</th>
-          <th class="border px-2 py-1">Servicio</th>
-          <th class="border px-2 py-1">Fecha</th>
-          <th class="border px-2 py-1">Hora Inicio</th>
-          <th class="border px-2 py-1">Hora Fin</th>
-          <th class="border px-2 py-1">Sede</th>
-          <th class="border px-2 py-1">Estado</th>
-          <th class="border px-2 py-1">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for cita in citas_historico %}
-        <tr class="text-center" id="cita-{{ cita.id }}">
-          <td class="border px-2 py-1">{{ cita.paciente }}</td>
-          <td class="border px-2 py-1">{{ cita.cedula }}</td>
-          <td class="border px-2 py-1">{{ cita.servicio }}</td>
-          <td class="border px-2 py-1">{{ cita.fecha }}</td>
-          <td class="border px-2 py-1">{{ cita.hora_inicio }}</td>
-          <td class="border px-2 py-1">{{ cita.hora_fin }}</td>
-          <td class="border px-2 py-1">{{ cita.sede }}</td>
-          <td class="border px-2 py-1">
-            {% if cita.estado == 1 %}
-              Activa
-            {% else %}
-              Finalizada
-            {% endif %}
-          </td>
-          <td class="border px-2 py-1">
-            <button onclick="verDetalles('{{ cita.paciente }}', '{{ cita.cedula }}', '{{ cita.servicio }}', '{{ cita.fecha }}', '{{ cita.hora_inicio }}', '{{ cita.sede }}')"
-                    class="bg-blue-500 text-white px-2 py-1 rounded text-xs">
-              Ver Detalles
-            </button>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+  <script>
+  function mostrarTab(tab) {
+    const hoy = document.getElementById('contenido-hoy');
+    const historico = document.getElementById('contenido-historico');
 
-</div>
+    const btnHoy = document.getElementById('tab-hoy');
+    const btnHist = document.getElementById('tab-historico');
 
-<!-- Modal Detalles -->
-<div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-  <div class="bg-white p-6 rounded shadow w-96">
-    <h3 class="text-xl font-bold mb-2">Detalles de la cita</h3>
-    <p id="detalle-paciente"></p>
-    <p id="detalle-cedula"></p>
-    <p id="detalle-servicio"></p>
-    <p id="detalle-fecha"></p>
-    <p id="detalle-hora"></p>
-    <p id="detalle-sede"></p>
-    <button onclick="cerrarModal()" class="bg-red-500 text-white px-4 py-2 rounded mt-4">Cerrar</button>
-  </div>
-</div>
-
-<script>
-function mostrarTab(tab) {
-  const hoy = document.getElementById('contenido-hoy');
-  const historico = document.getElementById('contenido-historico');
-
-  const btnHoy = document.getElementById('tab-hoy');
-  const btnHist = document.getElementById('tab-historico');
-
-  if (tab === 'hoy') {
-    hoy.classList.remove('hidden');
-    historico.classList.add('hidden');
-    btnHoy.classList.add('bg-pink-600', 'text-white');
-    btnHoy.classList.remove('bg-white', 'text-pink-600');
-    btnHist.classList.remove('bg-pink-600', 'text-white');
-    btnHist.classList.add('bg-white', 'text-pink-600');
-  } else {
-    hoy.classList.add('hidden');
-    historico.classList.remove('hidden');
-    btnHoy.classList.remove('bg-pink-600', 'text-white');
-    btnHoy.classList.add('bg-white', 'text-pink-600');
-    btnHist.classList.add('bg-pink-600', 'text-white');
-    btnHist.classList.remove('bg-white', 'text-pink-600');
+    if (tab === 'hoy') {
+      hoy.classList.remove('hidden');
+      historico.classList.add('hidden');
+      btnHoy.classList.add('bg-pink-600', 'text-white');
+      btnHoy.classList.remove('bg-white', 'text-pink-600');
+      btnHist.classList.remove('bg-pink-600', 'text-white');
+      btnHist.classList.add('bg-white', 'text-pink-600');
+    } else {
+      hoy.classList.add('hidden');
+      historico.classList.remove('hidden');
+      btnHoy.classList.remove('bg-pink-600', 'text-white');
+      btnHoy.classList.add('bg-white', 'text-pink-600');
+      btnHist.classList.add('bg-pink-600', 'text-white');
+      btnHist.classList.remove('bg-white', 'text-pink-600');
+    }
   }
-}
 
-function verDetalles(paciente, cedula, servicio, fecha, hora, sede) {
-  document.getElementById('modal').classList.remove('hidden');
-  document.getElementById('detalle-paciente').innerText = `Paciente: ${paciente}`;
-  document.getElementById('detalle-cedula').innerText = `CC: ${cedula}`;
-  document.getElementById('detalle-servicio').innerText = `Servicio: ${servicio}`;
-  document.getElementById('detalle-fecha').innerText = `Fecha: ${fecha}`;
-  document.getElementById('detalle-hora').innerText = `Hora: ${hora}`;
-  document.getElementById('detalle-sede').innerText = `Sede: ${sede}`;
-}
+  function verDetalles(paciente, cedula, servicio, fecha, hora, sede) {
+    document.getElementById('modal').classList.remove('hidden');
+    document.getElementById('detalle-paciente').innerText = `Paciente: ${paciente}`;
+    document.getElementById('detalle-cedula').innerText = `CC: ${cedula}`;
+    document.getElementById('detalle-servicio').innerText = `Servicio: ${servicio}`;
+    document.getElementById('detalle-fecha').innerText = `Fecha: ${fecha}`;
+    document.getElementById('detalle-hora').innerText = `Hora: ${hora}`;
+    document.getElementById('detalle-sede').innerText = `Sede: ${sede}`;
+  }
 
-function cerrarModal() {
-  document.getElementById('modal').classList.add('hidden');
-}
+  function cerrarModal() {
+    document.getElementById('modal').classList.add('hidden');
+  }
 
-function finalizarCita(cita_id) {
-  if (!confirm('¿Marcar esta cita como finalizada?')) return;
+  function finalizarCita(cita_id) {
+    if (!confirm('¿Marcar esta cita como finalizada?')) return;
 
-  axios.post(`/finalizar_cita/${cita_id}`)
-    .then(res => {
-      alert(res.data.message);
-      location.reload();
-    })
-    .catch(err => {
-      alert('Error al finalizar la cita');
-      console.error(err);
-    });
-}
-</script>
+    axios.post(`/finalizar_cita/${cita_id}`)
+      .then(res => {
+        alert(res.data.message);
+        location.reload();
+      })
+      .catch(err => {
+        alert('Error al finalizar la cita');
+        console.error(err);
+      });
+  }
+  </script>
 
-</body>
-</html>
+  </body>
+  </html>

@@ -10,7 +10,7 @@ const cardsData = [
   { img: "/undraw_to-do-list_eoia.svg", text: "Registro Personal", link: "/personal/listado" },
   { img: "/undraw_following_ztgd.svg", text: "Gestión de citas", link: "/citas" },
   { img: "/undraw_calendar_8r6s.svg", text: "Horario Profesional", link: "/horario" },
-  { img: "/undraw_current-location_c8qn.svg", text: "Sedes", link: "/sedes" },
+  { img: "/undraw_current-location_c8qn.svg", text: "Sedes", link: "/sedes/listado" },
   { img: "/undraw_organizing-data_uns9.svg", text: "Estadísticas", link: "/estadisticas" },
 ];
 
