@@ -66,6 +66,7 @@ const editarServicio = async (data) => {
     const res = await fetch(`${url}/${data.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
+      credentials: "include",
       body: JSON.stringify(data)
     });
     if (!res.ok) throw new Error('Error al actualizar profesional');

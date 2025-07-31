@@ -18,10 +18,11 @@ export default function ModalEditarServicio({ isOpen, onClose, datosIniciales, o
     if (datosIniciales) {
       setFormData({
         id: datosIniciales.id ?? '',
-        nombre: datosIniciales.nombre ?? '',
+        nombre: datosIniciales.name ?? '',
         duracion: datosIniciales.duracion ?? '',
         fecha: datosIniciales.fecha?.slice(0, 16) ?? new Date().toISOString().slice(0, 16),
-        id_estado: datosIniciales.id_estado ?? ''
+        id_estado: datosIniciales.id_estado ?? 
+        (datosIniciales.status === 'Activo' ? 1 : datosIniciales.status === 'Inactivo' ? 2 : 1)
       });
     }
   }, [datosIniciales]);
@@ -115,9 +116,10 @@ export default function ModalEditarServicio({ isOpen, onClose, datosIniciales, o
             onChange={handleChange}
             className="w-full border border-gray-300 rounded px-3 py-2 dark:bg-black dark:text-white"
             required
-          >
-           
+          >          
+           <option value="">Seleccione un estado</option>
             {estados.map((estado) => (
+              
               <option key={estado.id} value={estado.id}>
                 {estado.nombre_estado}
               </option>

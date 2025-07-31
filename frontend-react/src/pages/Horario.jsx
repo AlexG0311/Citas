@@ -3,13 +3,17 @@ import Tabla from '../components/Tabla';
 import * as config_tabla_horario from '../config/config_tabla_horario';
 import { Button } from "@chakra-ui/react"
 import ModalChakraUI from '../components/ModalChakraUI';
+import ModalEditarHorario from '../components/ModalEditarHorario';
 import { useState } from 'react';
-
 
 const url = "http://localhost:5000/horario";
 
-
 export default function Horario() {
+
+
+  const [showModalEditar, setShowModalEditar] = useState(false);
+  const [datosAEditar, setDatosAEditar] = useState(null);
+
 
  const crearHorario = async (data) => {
     const res = await fetch(url, {
@@ -20,14 +24,21 @@ export default function Horario() {
     if (!res.ok) throw new Error('Error al crear profesional');
   };
 
-
-
-
-  
   const [isOpen, setIsOpen] = useState(false)
 
   const handleOpen = () => setIsOpen(true)
   const handleClose = () => setIsOpen(false)
+
+
+  const editarHorario = async (data) => {
+    const res = await fetch(`${url}/${data.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: "include",
+      body: JSON.stringify(data)
+    });
+    if (!res.ok) throw new Error('Error al actualizar Horario!');
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -41,10 +52,24 @@ export default function Horario() {
               <Button onClick={handleOpen} colorScheme="blue"  className="bg-black text-white px-4 ml-4 mb-2 py-2 rounded hover:bg-gray-400">
                   Crear un Horario
               </Button>
+
+              <ModalEditarHorario
+              isOpen={showModalEditar}
+              onClose={() => setShowModalEditar(false)}
+              datosIniciales={datosAEditar}     //{datos traidos de la tabla}
+              onSubmit={editarHorario}
+              
+              
+              />
                   
-                <Tabla
+              <Tabla
                 conf_tabla={config_tabla_horario}
                 url_api={url}
+                  onEdit={(fila) => {
+                  console.log('Datos de fila al editar:', fila);  //{ conseguimos los datos de la tabla }
+                  setDatosAEditar(fila);
+                  setShowModalEditar(true);
+                }}
              
               />        
         
