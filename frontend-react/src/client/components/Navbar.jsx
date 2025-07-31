@@ -50,7 +50,7 @@ export default function Navbar({ nombre }) {
     )}
   </button>
     <img src="/static/usuario.png" alt="Usuario" className="w-10 h-10 rounded-full border" />
-    <a href="/logout" className="text-white hover:underline">Cerrar sesión</a>
+    <a href="/cliente/Login" className="text-white hover:underline">Cerrar sesión</a>
   </div>
 </nav>
 
