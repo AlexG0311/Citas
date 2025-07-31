@@ -1,4 +1,7 @@
 @import "tailwindcss" important;
+
+@custom-variant dark (&:where(.dark, .dark *));
+
 @import "tw-animate-css";
 
  @plugin './hero.ts';

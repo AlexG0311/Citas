@@ -38,12 +38,12 @@ function ListadoPersonal() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen  bg-white text-black  dark:bg-black flex flex-col  ">
       <Navbar />
 
-      <div className="flex-1 px-8 py-6">
-        <div className="flex bg-white rounded-lg shadow-md overflow-hidden">
-          <div className="bg-white w-full rounded shadow-md">
+      <div className="flex-1 px-8 py-6  ">
+        <div className="flex bg-white rounded-lg shadow-md overflow-hidden dark:bg-black">
+          <div className="   bg-white  text-black dark:bg-gray-800   dark:text-white p-10  w-full dark:text-white rounded shadow-md">
             <div className="overflow-x-auto">
 
               {/* Botón para abrir modal (CREAR) */}

@@ -61,8 +61,8 @@ export default function ModalEditarServicio({ isOpen, onClose, datosIniciales, o
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50" onClick={handleClose}>
-      <div className="bg-white p-6 rounded-lg shadow-lg w-[400px] max-w-full" onClick={(e) => e.stopPropagation()}>
-        <h2 className="text-xl font-bold mb-4">Editar Servicio</h2>
+      <div className="bg-white  dark:bg-black dark:text-white text-black p-6 rounded-lg shadow-lg w-[400px] max-w-full" onClick={(e) => e.stopPropagation()}>
+        <h2 className="text-xl font-bold mb-4 ">Editar Servicio</h2>
 
         {mensaje && (
           <div className={`mb-4 p-2 text-sm rounded ${mensaje.tipo === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
@@ -113,7 +113,7 @@ export default function ModalEditarServicio({ isOpen, onClose, datosIniciales, o
             name="id_estado"
             value={formData.id_estado}
             onChange={handleChange}
-            className="w-full border border-gray-300 rounded px-3 py-2"
+            className="w-full border border-gray-300 rounded px-3 py-2 dark:bg-black dark:text-white"
             required
           >
            
@@ -126,8 +126,8 @@ export default function ModalEditarServicio({ isOpen, onClose, datosIniciales, o
         </div>
 
         <div className="flex justify-end gap-2 pt-2">
-          <button type="button" onClick={handleClose} className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancelar</button>
-          <button type="submit" className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Actualizar</button>
+          <button type="button" onClick={handleClose} className="px-4 py-2 text-black bg-gray-300 rounded hover:bg-gray-400">Cancelar</button>
+          <button type="submit" className="px-4 py-2 bg-blue-600 text-black rounded hover:bg-blue-700">Actualizar</button>
         </div>
       </form>
 

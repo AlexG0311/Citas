@@ -79,8 +79,8 @@ getProfesional();
 return(
 
 
-<div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 bg-opacity-50">
-<div className="bg-white w-full max-w-md rounded-lg shadow-lg p-6 relative">
+<div className="fixed inset-0 flex  items-center justify-center bg-black/50 z-50 bg-opacity-50">
+<div className="bg-white w-full max-w-md rounded-lg shadow-lg p-6 relative   dark:bg-black dark:text-white">
     <h1 className="font-bold text-xl mb-5">EDITAR CITA</h1>
 <div>
 <label htmlFor="">FECHA:</label>
@@ -89,7 +89,7 @@ return(
  name="fecha"  
  value={formData.fecha}
  onChange={handleChange}
- className="w-full border border-gray-300 rounded px-3 py-2" />
+ className="w-full border rounded px-3 py-2 border-blue-500 " />
 </div>
 
 <div>
@@ -98,7 +98,7 @@ return(
 name="estado"
 onChange={handleChange}
 value={formData.estado}
-className="w-full border border-gray-300 rounded px-3 py-2">
+className="w-full border  rounded px-3 py-2   dark:bg-black dark:text-white  border-blue-500 " >
     <option value={formData.estado}>
         {formData.estado}
     </option>
@@ -127,7 +127,7 @@ type="time"
 name="hora_inicio"
 onChange={handleChange}
 value={formData.hora_inicio}  
-className="w-full border border-gray-300 rounded px-3 py-2" />
+className="w-full border  rounded px-3 py-2 border-blue-500" />
 </div>
 
 <div>
@@ -137,28 +137,51 @@ onChange={handleChange}
 type="time" 
 name="hora_fin"
 value={formData.hora_fin}  
-className="w-full border border-gray-300 rounded px-3 py-2"/>
+className="w-full border border-blue-500 mb-5 rounded px-3 py-2"/>
 </div>
 
 <div>
-  <label htmlFor="">PACIENTE:</label>
-  <Autocomplete
-    disablePortal
-    
-    options={clientes}
-    getOptionLabel={(option) =>
-      `${option.nombre} ${option.apellido} - Cédula: ${option.cedula}`
-    }
-    sx={{ width: 400 }}
-    value={clientes.find(c => c.id === formData.cliente) || null}
-    onChange={(event, newValue) => {
-      setFormData(prev => ({
-        ...prev,
-        cliente: newValue ? newValue.id : ''
-      }));
-    }}
-    renderInput={(params) => <TextField {...params} label="Pacientes" />}
-  />
+ 
+<Autocomplete
+  disablePortal
+  options={clientes}
+  getOptionLabel={(option) =>
+    `${option.nombre} ${option.apellido} - Cédula: ${option.cedula}`
+  }
+  sx={{ width: 400 }}
+  value={clientes.find(c => c.id === formData.cliente) || null}
+  onChange={(event, newValue) => {
+    setFormData(prev => ({
+      ...prev,
+      cliente: newValue ? newValue.id : ''
+    }));
+  }}
+  renderInput={(params) => (
+    <TextField
+      {...params}
+      label="Pacientes"
+      variant="outlined"
+      sx={{
+        '& .MuiOutlinedInput-root': {
+          '& fieldset': { borderColor: 'gray' }, // borde normal
+          '&:hover fieldset': { borderColor: 'pink' }, // hover
+          '&.Mui-focused fieldset': { borderColor: '#ec4899', borderWidth: '2px' }, // focus
+        },
+        '& .MuiInputBase-input': {
+          color: 'white', // <-- texto del input
+        },
+        '& .MuiInputLabel-root': {
+          color: 'white', // <-- color del label
+        },
+        '& .MuiInputLabel-root.Mui-focused': {
+          color: '#ec4899', // <-- color del label cuando está en focus
+        }
+      }}
+    />
+  )}
+/>
+
+
 </div>
 
 
@@ -190,7 +213,7 @@ className="w-full border border-gray-300 rounded px-3 py-2"/>
     required
     value={formData.servicio}
     onChange={handleChange}
-    className="w-full px-3 py-2 border rounded"
+    className="w-full px-3 py-2 border rounded  dark:bg-black dark:text-white border-blue-500"
 >
  <option value="">Seleccione un servicio</option>
     {servicios.map((s) => (
@@ -206,7 +229,7 @@ className="w-full border border-gray-300 rounded px-3 py-2"/>
 <select 
     name="sede" 
     value={formData.sede} 
-    className="w-full border border-gray-300 rounded px-3 py-2"
+    className="w-full border rounded px-3 py-2  dark:text-white border-blue-500 "
     onChange={handleChange}>
    
    {sedes.map((se) => (

@@ -9,6 +9,7 @@ import agendar from "../services/agendar";
 import Navbar from "../components/Navbar";
 
 const AgendarCita = () => {
+
   const [servicios, setServicios] = useState([]);
   const [horarios, setHorarios] = useState([]);
   const [modalidades, setModalidades] = useState([]);
@@ -70,29 +71,34 @@ if (!usuario) {
 }
 
   return (
-    <div className="bg-gray-100 font-sans min-h-screen">
+  <div> 
+    <div className="bg-white dark:bg-gray-900   font-sans min-h-screen" >
       {/* NAVBAR */}
      <Navbar
      nombre = {user.nombre}/>
      
 
       {/* CONTENIDO */}
-      <div className="container mx-auto p-4">
-        <h1 className="text-2xl font-bold text-center text-blue-700 mb-4">Agendar Cita</h1>
+  
+        <div className="container mx-auto p-4 ">
+          <h1 className="text-2xl font-bold text-center dark:text-white text-blue-700 mb-4">Agendar Cita</h1>
 
-        {/* Formulario Servicio */}
-        <div className="bg-white p-4 rounded shadow mb-6">
+           {/* Formulario Servicio */}
+          <div className="bg-white  dark:bg-black p-4 rounded shadow mb-6">
           <div className="mb-4">
-            <label htmlFor="servicio" className="block font-medium">Servicio</label>
+            <label htmlFor="servicio" className="block font-medium text-black dark:text-white">Servicio</label>
             <select
               id="servicio"
-              className="w-full border rounded p-2"
+              className="w-full border rounded p-2 text-black dark:text-white"
               value={servicioSeleccionado}
               onChange={handleServicioChange}
             >
-              <option value="">-- Selecciona un servicio --</option>
+              <option  className="dark:bg-gray-800">Selecciona un servicio</option>
               {servicios.map((servicio) => (
-                <option key={servicio.id} value={servicio.id}>
+                <option
+                className="dark:bg-gray-800"   
+                key={servicio.id} 
+                value={servicio.id}>
                   {servicio.nombre}
                 </option>
               ))}
@@ -100,27 +106,27 @@ if (!usuario) {
           </div>
         </div>
 
-           <div className="bg-white p-4 rounded shadow mb-6">
-             <label className="block text-sm font-medium">Profesional</label>
+           <div className="bg-white p-4 rounded shadow mb-6 dark:bg-black">
+             <label className="block text-sm font-medium  dark:text-white  text-black">Profesional</label>
                 <select
                 value={profesionalSeleccionado}
                 onChange={e => setProfesionalSeleccionado(e.target.value)}
-                className="border px-3 py-2 rounded w-full mt-1"
+                className="border px-3 py-2 rounded w-full mt-1 text-black dark:bg-black dark:text-white"
                 >
-               <option value="">Seleccione un profesional</option>
+               <option className="dark:bg-gray-800">Seleccione un profesional</option>
                {profesionales.map(p => (
-               <option key={p.id} value={p.id}>{p.nombre} {p.apellido}</option>
+               <option className="dark:bg-gray-800"   key={p.id} value={p.id}>{p.nombre} {p.apellido}</option>
               ))}
                </select>
             </div>
 
         {/* Formulario Modalidad */}
-        <div className="bg-white p-4 rounded shadow mb-6">
+        <div className="bg-white p-4 rounded shadow text-black mb-6 dark:text-white dark:bg-black">
           <div className="mb-4">
-            <label htmlFor="modalidad" className="block font-medium">Modalidad:</label>
+            <label htmlFor="modalidad" className="block font-medium  ">Modalidad:</label>
             <select
               id="modalidad"
-              className="w-full border rounded p-2"
+              className="w-full border rounded p-2  dark:text-white dark:bg-black"
               required
               value={modalidadSeleccionada}
               onChange={handleModalidadChange}
@@ -156,8 +162,8 @@ if (!usuario) {
             <h2 className="text-xl font-bold text-center text-green-700 mb-4">
               Doctores y Horarios Disponibles
             </h2>
-            <div className="bg-white p-4 rounded shadow overflow-x-auto">
-              <table className="w-full text-sm text-left border border-gray-300">
+            <div className="bg-white p-4 rounded shadow overflow-x-auto dark:text-white dark:bg-gray-800">
+              <table className="w-full text-sm text-left border border-gray-300 dark:text-white dark:bg-gray-800">
              <thead>
                       <tr>
                         <th className="border p-2">Fecha</th>
@@ -197,8 +203,10 @@ if (!usuario) {
             </div>
           </div>
         )}
-      </div>
+        </div>
+
     </div>
+  </div>   
   );
 };
 

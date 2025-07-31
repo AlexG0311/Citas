@@ -1,6 +1,6 @@
 export const columns = [
   { name: "ID", uid: "id", sortable: true },
-  { name: "NAME", uid: "nombre", sortable: true },
+  { name: "NAME", uid: "name", sortable: true },
   { name: "DURACION", uid: "duracion", sortable: true },
   { name: "FECHA", uid: "fecha", sortable: true },
   { name: "STATUS", uid: "status", sortable: true },
@@ -8,7 +8,7 @@ export const columns = [
 ];
 
 
-export const initial_colum = ["nombre","duracion", "fecha", "status", "actions"];
+export const initial_colum = ["name","duracion", "fecha", "status", "actions"];
 
 export const statusOptions = [
   { name: "Activo", uid: "Activo" },
@@ -18,13 +18,11 @@ export const statusOptions = [
 
 export const camposAdaptar = {     
   id: "id",
-  nombre: "nombre",
+  name: "nombre",
   duracion: "duracion",
   fecha: "fecha",
   status: "estado_servicio",
 };
-
-
 
 
 export function capitalize(s) {

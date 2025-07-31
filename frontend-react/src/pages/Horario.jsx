@@ -33,8 +33,8 @@ export default function Horario() {
     <div className="min-h-screen flex flex-col">
       <Navbar />
 
-      <div className="flex-1 px-8 py-6">
-              <div className="flex bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="flex-1 px-8 py-6  dark:bg-black bg-white text-black dark:text-white">
+              <div className="flex bg-white rounded-lg shadow-md overflow-hidden  dark:bg-gray-800  p-5">
                 <div className="w-full">
                   <div className="overflow-x-auto">
                               

@@ -7,7 +7,7 @@ const url = "http://localhost:5000/sedes";
 function Citas() {
 
    return (
-   <div className="min-h-screen flex flex-col">
+   <div className="min-h-screen flex flex-col   dark:bg-black">
       {/* Navbar arriba */} 
       <Navbar />
 
@@ -17,9 +17,9 @@ function Citas() {
  
 
         {/* Contenido principal */}
-        <div className="fbg-white w-full  rounded shadow-md  ">
+        <div className="fbg-white w-full  rounded shadow-md p-10 dark:bg-gray-800 ">
           
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto dark:text-white text-black ">
                     <Tabla 
                     conf_tabla ={conf_tabla_servicios}
                     url_api = {url} 

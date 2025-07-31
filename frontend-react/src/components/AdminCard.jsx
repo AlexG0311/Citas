@@ -18,7 +18,7 @@ export default function AdminCard({ img, text, link }) {
     setTimeout(() => setShake(false), 500); // duración de la animación
   };
   return (
-    <div className={`transition-transform duration-300 transform hover:scale-105 hover:-translate-y-1 ${
+    <div className={`transition-transform  duration-300 transform hover:scale-105 hover:-translate-y-1 ${
         shake ? 'animate-shake' : ''
       }`}
       
