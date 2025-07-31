@@ -12,9 +12,7 @@ from routes.login_cliente import login_cliente_bp
 from routes.cliente_perfil import cliente_perfil_bp;
 from routes.clientes import clientes_bp
 from routes.citas import citas_bp
-from routes.login_profesional import profesional_bp
-from routes.profesional_routes import citas_profesional_bp
-from routes.profesional import profesional
+from routes.profesionales import profesional_bp
 
 
 
@@ -60,6 +58,7 @@ app.register_blueprint(estados_bp)
 app.register_blueprint(horario_bp)
 app.register_blueprint(modalidad_bp)
 app.register_blueprint(estado_bp)
+app.register_blueprint(profesional_bp)
 app.register_blueprint(sede_bp)
 app.register_blueprint(estado_servicio_bp)
 app.register_blueprint(servicio_profesional_bp)
@@ -70,15 +69,6 @@ app.register_blueprint(citas_bp)
 
 app.register_blueprint(login_cliente_bp)
 app.register_blueprint(cliente_perfil_bp)
-
-# ✅ RUTAS DEL DOCtor
-app.register_blueprint(profesional_bp)
-app.register_blueprint(citas_profesional_bp, url_prefix="/profesional")
-app.register_blueprint(profesional)
-
-
-
-
 
 
 # ✅ Verificar conexión y crear tablas
