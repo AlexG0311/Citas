@@ -75,8 +75,8 @@ export default function ModalEditarProfesional({ isOpen, onClose, onSubmit, dato
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50" onClick={handleClose}>
-      <div className="bg-white p-6 rounded-lg shadow-lg w-96 max-w-full" onClick={(e) => e.stopPropagation()}>
+    <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 " onClick={handleClose}>
+      <div className="bg-white dark:bg-black dark:text-white p-6 rounded-lg shadow-lg w-96 max-w-full" onClick={(e) => e.stopPropagation()}>
         <h2 className="text-xl font-bold mb-4">Editar Profesional</h2>
 
         {mensaje && (
@@ -106,7 +106,7 @@ export default function ModalEditarProfesional({ isOpen, onClose, onSubmit, dato
               name="estado"
               value={formData.estado}
               onChange={handleChange}
-              className="w-full border px-3 py-2 rounded"
+              className="w-full border px-3 py-2 rounded  dark:bg-black dark:text-white"
               required
             >
               <option value="">Seleccione un estado</option>
@@ -125,7 +125,7 @@ export default function ModalEditarProfesional({ isOpen, onClose, onSubmit, dato
               name="sede_id"
               value={formData.sede_id}
               onChange={handleChange}
-              className="w-full border px-3 py-2 rounded"
+              className="w-full border px-3 py-2 rounded  dark:bg-black dark:text-white"
               required
             >
               <option value="">Seleccione una sede</option>

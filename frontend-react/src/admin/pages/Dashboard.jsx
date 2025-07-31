@@ -49,24 +49,24 @@ function Dashboard() {
     </Box>
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white-100 to-white-200">
+    <div className="min-h-screen bg-white dark:bg-black   from-white-100 to-white-200">
       {/* Barra superior */}
       <nav className="w-full flex justify-end mb-6 bg-blue-500 p-4">
-       <UserProfile
-      
-       />
+       <UserProfile/>
       </nav>
 
       {/* Título */}
-      <h1 className="text-3xl font-bold mb-6 text-center">Bienvenido, {admin?.email || 'correo'}</h1>
+      <h1 className="text-3xl text-black dark:text-white  font-bold mb-6 text-center">Bienvenido, {admin?.email || 'correo'}</h1>
 
       {/* Cards */}
-      <section className="bg-blue-500 p-6 rounded-lg shadow-2xl mx-auto mt-10 max-w-[900px] w-full">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <section className="skeleton  dark:bg-gray-800 bg-blue-500 p-6 rounded-lg  shadow-2xl mx-auto mt-10 max-w-[900px] w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4  ">
           {cardsData.map((card, index) => (
             <AdminCard key={index} img={card.img} text={card.text} link={card.link} />
           ))}
         </div>
+
+        
       </section>
     </div>
   );

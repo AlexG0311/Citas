@@ -66,17 +66,18 @@ const editarServicio = async (data) => {
     const res = await fetch(`${url}/${data.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
+      credentials: "include",
       body: JSON.stringify(data)
     });
     if (!res.ok) throw new Error('Error al actualizar profesional');
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen  bg-white text-black flex dark:bg-black flex-col">
       <Navbar />
 
       <div className="flex-1 px-8 py-6">
-        <div className="flex bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="flex dark:bg-gray-800 dark:text-white p-10 rounded-lg shadow-md overflow-hidden">
           <div className="w-full">
             <div className="overflow-x-auto">
               <button
@@ -88,7 +89,7 @@ const editarServicio = async (data) => {
 
                 <button
                 onClick={() => setShowModalAsignar(true)}
-                className="bg-black text-white px-4 ml-4 mb-2 py-2 rounded hover:bg-gray-400"
+                className="bg-black text-white px-4 ml-4 mb-2 py-2 rounded hover:bg-gray-400 "
               >
                 Asignar servicio
               </button>

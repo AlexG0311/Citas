@@ -109,8 +109,8 @@ function Citas() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <div className="flex-1 px-8 py-6">
-        <div className="flex bg-white rounded-lg shadow-md overflow-hidden w-full p-6 flex-col">
+      <div className="flex-1 px-8 py-6  dark:bg-black bg-white">
+        <div className="flex light:bg-white rounded-lg dark:bg-gray-800 text-black dark:text-white  shadow-md overflow-hidden w-full p-6 flex-col">
           <Tabs.Root defaultValue="members">
             <Tabs.List>
               <Tabs.Trigger value="members">
@@ -128,14 +128,16 @@ function Citas() {
                 {/* FORMULARIO IZQUIERDA */}
                 <div className="flex flex-col gap-4 w-1/2">
                   <div>
-                    <label className="block text-sm font-medium">Número de documento del paciente</label>
-                    <input
-                      type="text"
-                      value={documento}
-                      onChange={e => setDocumento(e.target.value)}
-                      className="border px-3 py-2 rounded w-full mt-1"
-                      placeholder="Ingrese su número de documento"
-                    />
+                    <label className="block text-sm font-medium ">Número de documento del paciente</label>
+                   <input
+                    type="text"
+                    value={documento}
+                    onChange={e => setDocumento(e.target.value)}
+                    className="border px-3 py-2 rounded w-full mt-1 border-gray-700 
+                              focus:border-blue-600 focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
+                    placeholder="Ingrese su número de documento"
+                  />
+
                   </div>
 
                   <div>
@@ -143,7 +145,9 @@ function Citas() {
                     <select
                       value={servicioSeleccionado}
                       onChange={e => setServicioSeleccionado(e.target.value)}
-                      className="border px-3 py-2 rounded w-full mt-1"
+                      className="border px-3 py-2 rounded w-full mt-1 dark:bg-gray-800  bg-white
+                      border px-3 py-2 rounded w-full mt-1 border-gray-700 
+                      focus:border-blue-600 focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
                     >
                       <option value="">Seleccione un servicio</option>
                       {servicios.map(s => (
@@ -157,7 +161,9 @@ function Citas() {
                     <select
                       value={profesionalSeleccionado}
                       onChange={e => setProfesionalSeleccionado(e.target.value)}
-                      className="border px-3 py-2 rounded w-full mt-1"
+                      className="border px-3 py-2 rounded w-full mt-1 dark:bg-gray-800
+                      border px-3 py-2 rounded w-full mt-1 border-gray-700 
+                              focus:border-blue-600 focus:ring-2 focus:ring-blue-500 focus:outline-none transition "
                     >
                       <option value="">Seleccione un profesional</option>
                       {profesionales.map(p => (
@@ -167,11 +173,13 @@ function Citas() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium">Modalidad</label>
+                    <label className="block text-sm font-medium ">Modalidad</label>
                     <select
                       value={modalidadSeleccionada}
                       onChange={e => setModalidadSeleccionada(e.target.value)}
-                      className="border px-3 py-2 rounded w-full mt-1"
+                      className="border px-3 py-2 rounded w-full mt-1 dark:bg-gray-800 
+                      border px-3 py-2 rounded w-full mt-1 border-gray-700 
+                              focus:border-blue-600 focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
                     >
                       <option value="">Seleccione una modalidad</option>
                       {modalidades.map(m => (
@@ -186,7 +194,9 @@ function Citas() {
                       type="date"
                       value={fecha}
                       onChange={e => setFecha(e.target.value)}
-                      className="border px-3 py-2 rounded w-full mt-1"
+                      className="border px-3 py-2 rounded w-full mt-1
+                      border px-3 py-2 rounded w-full mt-1 border-gray-700 
+                              focus:border-blue-600 focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
                     />
                   </div>
 
@@ -199,33 +209,33 @@ function Citas() {
                 </div>
 
                 {/* TABLA DERECHA */}
-                <div className="flex-1 border rounded p-4">
-                  <h2 className="text-center font-semibold mb-2">Horarios disponibles</h2>
-                  <table className="w-full border">
+                <div className="flex-1 border rounded p-4 border p-2 border-blue-500">
+                  <h2 className="text-center font-semibold mb-2 border p-2 border-blue-500">Horarios disponibles</h2>
+                  <table className="w-full border ">
                     <thead>
                       <tr>
-                        <th className="border p-2">Fecha</th>
-                        <th className="border p-2">Hora Inicio</th>
-                        <th className="border p-2">Hora Fin</th>
-                        <th className="border p-2">Profesional</th>
-                        <th className="border p-2">Estado</th>
-                        <th className="border p-2">Acción</th>
+                        <th className="border p-2 border-blue-500">Fecha</th>
+                        <th className="border p-2 border-blue-500">Hora Inicio</th>
+                        <th className="border p-2 border-blue-500">Hora Fin</th>
+                        <th className="border p-2 border-blue-500">Profesional</th>
+                        <th className="border p-2 border-blue-500">Estado</th>
+                        <th className="border p-2 border-blue-500">Acción</th>
                       </tr>
                     </thead>
                     <tbody>
                       {horarios.length === 0 ? (
-                        <tr>
-                          <td colSpan="6" className="text-center p-4">No hay horarios disponibles</td>
+                        <tr className='border p-2 border-blue-500'>
+                          <td colSpan="6" className="border text-center p-4  border-blue-500">No hay horarios disponibles</td>
                         </tr>
                       ) : (
                         horarios.map((h) => (
                           <tr key={h.id}>
-                            <td className="border p-2">{h.fecha}</td>
-                            <td className="border p-2">{h.hora_inicio}</td>
-                            <td className="border p-2">{h.hora_fin}</td>
-                            <td className="border p-2">{h.profesional_nombre}</td>
-                            <td className="border p-2">{h.estado}</td>
-                            <td className="border p-2">
+                            <td className="border p-2 border-blue-500">{h.fecha}</td>
+                            <td className="border p-2 border-blue-500 ">{h.hora_inicio}</td>
+                            <td className="border p-2 border-blue-500">{h.hora_fin}</td>
+                            <td className="border p-2 border-blue-500">{h.profesional_nombre}</td>
+                            <td className="border p-2 border-blue-500">{h.estado}</td>
+                            <td className="border p-2 border-blue-500">
                               <button
                                 className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
                                 onClick={() => agendarCita(h)}
